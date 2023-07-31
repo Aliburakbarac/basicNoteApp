@@ -40,3 +40,13 @@ extension SignInViewController {
         textField.layer.borderColor = UIColor(red: 0.886, green: 0.902, blue: 0.918, alpha: 1).cgColor
     }
 }
+
+extension ForgotPasswordViewController {
+    public func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.layer.borderColor = UIColor(red: 0.55, green: 0.55, blue: 1, alpha: 1).cgColor
+    }
+    
+    public func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.layer.borderColor = UIColor(red: 0.886, green: 0.902, blue: 0.918, alpha: 1).cgColor
+    }
+}

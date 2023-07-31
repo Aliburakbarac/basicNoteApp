@@ -7,11 +7,11 @@
 
 import Foundation
 
-public struct User: Encodable {
+public struct User: Codable {
 
-    public let fullName:String
-    public let email: String
-    public let password: String
+    public let fullName:String?
+    public let email: String?
+    public let password: String?
     
     enum CodingKeys: String, CodingKey {
        

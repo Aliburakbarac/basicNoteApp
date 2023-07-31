@@ -10,11 +10,11 @@ import UIKit
  final class RegisterViewController: UIViewController, UITextFieldDelegate {
     private let signUpLabel = UILabel()
     private let subtitleLabel = UILabel()
-    private let fullnameField = UITextField()
-    private let emailField = UITextField()
-    private let passwordField = UITextField()
+    private let fullnameField = AuthReusableTextfield()
+    private let emailField = AuthReusableTextfield()
+    private let passwordField = AuthReusableTextfield()
     private let forgotButton = UIButton()
-    private let signUpButton = UIButton()
+    private let buttonStackView =  ReusableButtonStackView()
     private let alreadyLabel = UILabel()
     private let signInButton = UIButton()
     private let errorLabel = UILabel()
@@ -34,16 +34,26 @@ import UIKit
         view.backgroundColor = .systemBackground
         setUpLabel()
         setUpTextFields()
+        setUpViews()
         setUpButtons()
         setUpImages()
         applyConstraints()
+        registerClicked()
+        
+        var backImage = UIImage(named: "Path.png")
+        backImage = backImage?.stretchableImage(withLeftCapWidth: 15, topCapHeight: 30)
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.backIndicatorImage = backImage
+        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
+        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         errorIcon.isHidden = true
         errorLabel.isHidden = true
         
         
         
-        registerViewModel = RegisterViewModel(registerAPI: RegisterAPI())
+        registerViewModel = RegisterViewModel(registerAPI: APIRequest())
         
         
       
@@ -88,35 +98,26 @@ import UIKit
         view.addSubview(errorLabel)
         
     }
+     func setUpViews(){
+        buttonStackView.setButtonTitle("Sign Up")
+        view.addSubview(buttonStackView)
+         
+         
+         
+     }
+     func registerClicked(){
+         buttonStackView.buttonTappedHandler = {
+             print("Button tapped!")
+         }
+     }
     func setUpTextFields(){
         
+        fullnameField.setPlaceholder("Full Name")
+        emailField.setPlaceholder("Email Adress")
+        passwordField.setPlaceholder("Password")
         
-        fullnameField.frame = CGRect(x: 0, y: 0, width: 327, height: 53)
-        fullnameField.layer.cornerRadius = 5
-        fullnameField.layer.borderWidth = 1
-        fullnameField.layer.borderColor = UIColor(red: 0.886, green: 0.902, blue: 0.918, alpha: 1).cgColor
-        fullnameField.placeholder = "Full Name"
-        fullnameField.setLeftPaddingPoints(18)
-        fullnameField.autocapitalizationType = .none
         view.addSubview(fullnameField)
-        
-        emailField.frame = CGRect(x: 0, y: 0, width: 327, height: 53)
-        emailField.layer.cornerRadius = 5
-        emailField.layer.borderWidth = 1
-        emailField.layer.borderColor = UIColor(red: 0.886, green: 0.902, blue: 0.918, alpha: 1).cgColor
-        emailField.placeholder = "Email Address"
-        emailField.autocapitalizationType = .none
-        
-        emailField.setLeftPaddingPoints(18)
         view.addSubview(emailField)
-        
-        passwordField.frame = CGRect(x: 0, y: 0, width: 327, height: 53)
-        passwordField.layer.cornerRadius = 5
-        passwordField.layer.borderWidth = 1
-        passwordField.layer.borderColor = UIColor(red: 0.886, green: 0.902, blue: 0.918, alpha: 1).cgColor
-        passwordField.placeholder = "Password"
-        passwordField.setLeftPaddingPoints(18)
-        passwordField.isSecureTextEntry = true
         view.addSubview(passwordField)
         
     }
@@ -131,14 +132,7 @@ import UIKit
         forgotButton.addTarget(self, action: #selector(forgotButtonTapped), for: .touchUpInside)
         view.addSubview(forgotButton)
         
-        signUpButton.frame = CGRect(x: 0, y: 0, width: 327, height: 63)
-        signUpButton.backgroundColor = UIColor(red: 0.863, green: 0.863, blue: 1, alpha: 1)
-        signUpButton.layer.cornerRadius = 5
-        signUpButton.setTitle("Sign Up", for: .normal)
-        signUpButton.setTitleColor(UIColor(red: 0.545, green: 0.549, blue: 1, alpha: 1), for: .normal)
-        signUpButton.titleLabel?.font = UIFont(name: "Inter-SemiBold", size: 16)
-        signUpButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
-        view.addSubview(signUpButton)
+       
         
         signInButton.frame = CGRect(x: 0, y: 0, width: 90, height: 18)
         signInButton.setTitleColor(UIColor(red: 0.55, green: 0.55, blue: 1, alpha: 1), for: .normal)
@@ -159,7 +153,7 @@ import UIKit
         emailField.translatesAutoresizingMaskIntoConstraints = false
         passwordField.translatesAutoresizingMaskIntoConstraints = false
         forgotButton.translatesAutoresizingMaskIntoConstraints = false
-        signUpButton.translatesAutoresizingMaskIntoConstraints = false
+        buttonStackView.translatesAutoresizingMaskIntoConstraints = false
         alreadyLabel.translatesAutoresizingMaskIntoConstraints = false
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -205,11 +199,11 @@ import UIKit
             forgotButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             
             
-            signUpButton.widthAnchor.constraint(equalToConstant: 327),
-            signUpButton.heightAnchor.constraint(equalToConstant: 63),
-            signUpButton.topAnchor.constraint(equalTo: forgotButton.bottomAnchor, constant: 24),
-            signUpButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            signUpButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            buttonStackView.widthAnchor.constraint(equalToConstant: 327),
+            buttonStackView.heightAnchor.constraint(equalToConstant: 63),
+            buttonStackView.topAnchor.constraint(equalTo: forgotButton.bottomAnchor, constant: 24),
+            buttonStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             
             alreadyLabel.widthAnchor.constraint(equalToConstant: 200),
             alreadyLabel.heightAnchor.constraint(equalToConstant: 18),
@@ -240,20 +234,18 @@ import UIKit
         
     }
      func showError(message: String, field: UITextField?) {
-        
          field?.layer.borderColor = UIColor.red.cgColor
          field?.layer.borderWidth = 1.0
+         
          errorIcon.isHidden = false
          errorLabel.isHidden = false
          errorLabel.text = message
          
-         if errorLabel.isHidden {
-             forgotButtonTopConstraint.constant = 12
-         } else {
+         if !errorLabel.isHidden {
              forgotButtonTopConstraint.constant = 48
+         } else {
+             forgotButtonTopConstraint.constant = 12
          }
-         
-        
          
          UIView.animate(withDuration: 0.3) {
              self.view.layoutIfNeeded()
@@ -274,7 +266,8 @@ import UIKit
          }
      
      @objc func forgotButtonTapped() {
-             // Forgot button tapped
+         let forgotVC = ForgotPasswordViewController()
+         navigationController?.pushViewController(forgotVC, animated: true)
          }
          
      @objc func registerButtonTapped() {
@@ -288,24 +281,41 @@ import UIKit
          case .success:
              let user = User(fullName: fullName, email: email, password: password)
              
-             registerViewModel.registerUser(user: user) { [weak self] result in
+             registerViewModel.registerUser(user:user) { [weak self] result in
                  DispatchQueue.main.async {
                      switch result {
-                     case .success(let accessToken):
-                         self?.saveAccessToken(accessToken)
+                     case .success(let response):
+                         print(response)
+                         print(response.code)
                          self?.changeColorSuccess()
+                         
                          self?.errorLabel.isHidden = true
                          self?.errorIcon.isHidden = true
                          self?.moveForgotButton()
                          self?.navigateToMain()
+                         
                      case .failure(let error):
                          self?.showError(message: error.localizedDescription, field: self?.passwordField)
                          self?.moveForgotButton()
+                         print(String(describing: error))
+                         
                      }
                  }
              }
          case .failure(let message):
-             showError(message: message, field: nil)
+             let invalidField: UITextField?
+             
+             if message == ValidationConstant.fullNameRequired || message == ValidationConstant.fullNameMaxLength {
+                 invalidField = fullnameField
+             } else if message == ValidationConstant.emailRequired || message == ValidationConstant.invalidEmail {
+                 invalidField = emailField
+             } else if message == ValidationConstant.passwordRequired || message == ValidationConstant.invalidPassword {
+                 invalidField = passwordField
+             } else {
+                 invalidField = nil
+             }
+             
+             showError(message: message, field: invalidField)
          }
      }
          
@@ -326,8 +336,7 @@ import UIKit
          }
      }
      func changeColorSuccess(){
-         signUpButton.backgroundColor = UIColor(red: 0.55, green: 0.55, blue: 1, alpha: 1)
-         signUpButton.titleLabel?.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
+         buttonStackView.backgroundColor = UIColor(red: 0.55, green: 0.55, blue: 1, alpha: 1)
      }
 
 }

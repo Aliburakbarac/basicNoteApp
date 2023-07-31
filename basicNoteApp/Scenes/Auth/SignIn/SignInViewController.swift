@@ -9,10 +9,10 @@ import UIKit
 
 private let loginLabel = UILabel()
 private let loginSubLabel = UILabel()
-private let signEmailField = UITextField()
-private let signPasswordField = UITextField()
+private let signEmailField = AuthReusableTextfield()
+private let signPasswordField = AuthReusableTextfield()
 private let forgotButton = UIButton()
-private let loginButton = UIButton()
+private let signInButtonStackView = ReusableButtonStackView()
 private let alreadyLabel = UILabel()
 private let signUpButton = UIButton()
 private let errorIcon = UIImageView()
@@ -34,13 +34,21 @@ final class SignInViewController: UIViewController,UITextFieldDelegate {
         setTextFields()
         setUpButtons()
         setErrorImage()
+        setUpViews()
         setUpConstraints()
         hideKeyboardFunction()
-        
+       
         errorIcon.isHidden = true
         errorLabel.isHidden = true
         
         // Do any additional setup after loading the view.
+    }
+    func setUpViews(){
+       signInButtonStackView.setButtonTitle("Sign Up")
+       view.addSubview(signInButtonStackView)
+        
+        
+        
     }
     private func setErrorImage(){
         errorIcon.frame = CGRect(x: 0, y: 0, width: 327, height: 82)
@@ -52,7 +60,6 @@ final class SignInViewController: UIViewController,UITextFieldDelegate {
         loginLabel.frame = CGRect(x: 0, y: 0, width: 327, height: 31)
         loginLabel.textColor = UIColor(red: 0.137, green: 0.137, blue: 0.235, alpha: 1)
         loginLabel.font = .boldSystemFont(ofSize: 26)
-        // Line height: 31 pt
         loginLabel.textAlignment = .center
         loginLabel.text = "Login"
         view.addSubview(loginLabel)
@@ -60,7 +67,6 @@ final class SignInViewController: UIViewController,UITextFieldDelegate {
         loginSubLabel.frame = CGRect(x: 0, y: 0, width: 327, height: 18)
         loginSubLabel.textColor = UIColor(red: 0.514, green: 0.552, blue: 0.571, alpha: 1)
         loginSubLabel.font = UIFont(name: "Inter-Medium", size: 15)
-        // Line height: 18 pt
         loginSubLabel.textAlignment = .center
         loginSubLabel.text = "Login or sign up to continue using our app."
         view.addSubview(loginSubLabel)
@@ -68,37 +74,22 @@ final class SignInViewController: UIViewController,UITextFieldDelegate {
         alreadyLabel.frame = CGRect(x: 0, y: 0, width: 81, height: 18)
         alreadyLabel.textColor = UIColor(red: 0.545, green: 0.584, blue: 0.604, alpha: 1)
         alreadyLabel.font = UIFont(name: "Inter-Medium", size: 15)
-        // Line height: 18 pt
         alreadyLabel.text = "New user?"
         view.addSubview(alreadyLabel)
         
         errorLabel.frame = CGRect(x: 0, y: 0, width: 89, height: 13)
         errorLabel.textColor = UIColor(red: 0.867, green: 0.173, blue: 0, alpha: 1)
         errorLabel.font = UIFont(name: "Inter-Medium", size: 11)
-        // Line height: 13 pt
         errorLabel.text = "Password Invalid"
         view.addSubview(errorLabel)
         
     }
     private func setTextFields(){
         
-        signEmailField.frame = CGRect(x: 0, y: 0, width: 327, height: 53)
-        signEmailField.layer.cornerRadius = 5
-        signEmailField.layer.borderWidth = 1
-        signEmailField.layer.borderColor = UIColor(red: 0.886, green: 0.902, blue: 0.918, alpha: 1).cgColor
-        signEmailField.setLeftPaddingPoints(18)
-        signEmailField.placeholder = "Email Address"
-        signEmailField.autocapitalizationType = .none
+        signEmailField.setPlaceholder("Email Adress")
         view.addSubview(signEmailField)
         
-        signPasswordField.frame = CGRect(x: 0, y: 0, width: 327, height: 53)
-        signPasswordField.layer.cornerRadius = 5
-        signPasswordField.layer.borderWidth = 1
-        signPasswordField.layer.borderColor = UIColor(red: 0.886, green: 0.902, blue: 0.918, alpha: 1).cgColor
-        signPasswordField.setLeftPaddingPoints(18)
-        signPasswordField.placeholder = "Password"
-        signPasswordField.isSecureTextEntry = true
-        signPasswordField.autocapitalizationType = .none
+        signPasswordField.setPlaceholder("Password")
         view.addSubview(signPasswordField)
         
     }
@@ -106,26 +97,14 @@ final class SignInViewController: UIViewController,UITextFieldDelegate {
         
         forgotButton.frame = CGRect(x: 0, y: 0, width: 121, height: 17)
         forgotButton.titleLabel?.font = UIFont(name: "Inter-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
-        // Line height: 17 pt
-        // (identical to box height)
         forgotButton.setTitle("Forgot Password?", for: .normal)
         forgotButton.setTitleColor(.black, for: .normal)
         forgotButton.addTarget(self, action: #selector(forgotButtonTapped), for: .touchUpInside)
         view.addSubview(forgotButton)
         
-        loginButton.frame = CGRect(x: 0, y: 0, width: 327, height: 63)
-        loginButton.backgroundColor = UIColor(red: 0.863, green: 0.863, blue: 1, alpha: 1)
-        loginButton.layer.cornerRadius = 5
-        loginButton.setTitle("Sign Up", for: .normal)
-        loginButton.setTitleColor(UIColor(red: 0.545, green: 0.549, blue: 1, alpha: 1), for: .normal)
-        loginButton.titleLabel?.font = UIFont(name: "Inter-SemiBold", size: 16)
-        loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-        view.addSubview(loginButton)
-        
         signUpButton.frame = CGRect(x: 0, y: 0, width: 87, height: 18)
         signUpButton.setTitleColor(UIColor(red: 0.55, green: 0.55, blue: 1, alpha: 1), for: .normal)
         signUpButton.titleLabel?.font = UIFont(name: "Inter-Medium", size: 15)
-        // Line height: 18 pt
         signUpButton.setTitle("Sign up now", for: .normal)
         signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         view.addSubview(signUpButton)
@@ -139,7 +118,7 @@ final class SignInViewController: UIViewController,UITextFieldDelegate {
         signEmailField.translatesAutoresizingMaskIntoConstraints = false
         signPasswordField.translatesAutoresizingMaskIntoConstraints = false
         forgotButton.translatesAutoresizingMaskIntoConstraints = false
-        loginButton.translatesAutoresizingMaskIntoConstraints = false
+        signInButtonStackView.translatesAutoresizingMaskIntoConstraints = false
         alreadyLabel.translatesAutoresizingMaskIntoConstraints = false
         signUpButton.translatesAutoresizingMaskIntoConstraints = false
         errorIcon.translatesAutoresizingMaskIntoConstraints = false
@@ -150,7 +129,8 @@ final class SignInViewController: UIViewController,UITextFieldDelegate {
             loginLabel.widthAnchor.constraint(equalToConstant: 327),
             loginLabel.heightAnchor.constraint(equalToConstant: 31),
             loginLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 96),
-            loginLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            loginLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 152.5),
+            loginLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -152.5),
             
             loginSubLabel.widthAnchor.constraint(equalToConstant: 327),
             loginSubLabel.heightAnchor.constraint(equalToConstant: 18),
@@ -175,11 +155,11 @@ final class SignInViewController: UIViewController,UITextFieldDelegate {
             forgotButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 230),
             forgotButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             
-            loginButton.widthAnchor.constraint(equalToConstant: 327),
-            loginButton.heightAnchor.constraint(equalToConstant: 63),
-            loginButton.topAnchor.constraint(equalTo: forgotButton.bottomAnchor, constant: 24),
-            loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            signInButtonStackView.widthAnchor.constraint(equalToConstant: 327),
+            signInButtonStackView.heightAnchor.constraint(equalToConstant: 63),
+            signInButtonStackView.topAnchor.constraint(equalTo: forgotButton.bottomAnchor, constant: 24),
+            signInButtonStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            signInButtonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             
             alreadyLabel.widthAnchor.constraint(equalToConstant: 81),
             alreadyLabel.heightAnchor.constraint(equalToConstant: 18),
@@ -226,7 +206,10 @@ final class SignInViewController: UIViewController,UITextFieldDelegate {
         }
     }
     @objc private func forgotButtonTapped(){
-        
+
+            let forgotVC = ForgotPasswordViewController()
+            navigationController?.pushViewController(forgotVC, animated: true)
+                
     }
     @objc private func loginButtonTapped(){
        

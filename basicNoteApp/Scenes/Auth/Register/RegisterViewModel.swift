@@ -8,27 +8,14 @@
 import Foundation
 
 class RegisterViewModel {
-    private let registerAPI: RegisterAPI
+    private let registerAPI: APIRequest
     
-    init(registerAPI: RegisterAPI) {
+    init(registerAPI: APIRequest) {
         self.registerAPI = registerAPI
     }
     
-    func registerUser(user: User, completion: @escaping (Result<String, Error>) -> Void) {
-        
-        registerAPI.registerUser(user: user) { result in
-            switch result {
-            case .success(let accessToken):
-                
-                
-                completion(.success(accessToken))
-               
-                print(accessToken)
-            case .failure(let error):
-           
-                completion(.failure(error))
-            }
-        }
+    func registerUser(user: User, completion: @escaping (Result<BaseResponseModel<User>, Error>) -> Void) {
+        registerAPI.fetch(path: "auth/register", method: RequestMethod.post, completion: completion)
     }
-    
 }
+
