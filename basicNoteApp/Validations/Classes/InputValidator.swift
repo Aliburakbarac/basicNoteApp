@@ -5,6 +5,7 @@
 //  Created by Ali Burak Baraç on 14.07.2023.
 //
 
+
 import Foundation
 
 class InputValidator {
@@ -55,3 +56,20 @@ enum ValidationResult {
     case success
     case failure(message: String)
 }
+enum ValidationError: Error {
+    case fullNameInvalid
+    case emailInvalid
+    case passwordInvalid
+    
+    var localizedDescription: String {
+        switch self {
+        case .fullNameInvalid:
+            return "Invalid full name"
+        case .emailInvalid:
+            return "Invalid email address"
+        case .passwordInvalid:
+            return "Invalid password"
+        }
+    }
+}
+

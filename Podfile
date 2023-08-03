@@ -7,6 +7,6 @@ target 'basicNoteApp' do
 	
   # Pods for basicNoteApp
 pod 'SwiftLint'
-
+pod 'Alamofire'
 
 end
