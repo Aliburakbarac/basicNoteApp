@@ -21,22 +21,23 @@ private var forgotButtonTopConstraint: NSLayoutConstraint!
 private let validation = InputValidator()
 private var isButtonTapped = false
 
+var service = NetworkManager()
+var accessToken = ""
 
-final class SignInViewController: UIViewController,UITextFieldDelegate {
+final class SignInViewController: BaseViewController,UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         signEmailField.delegate = self
         signPasswordField.delegate = self
         
-        view.backgroundColor = .systemBackground
         setLabels()
         setTextFields()
         setUpButtons()
         setErrorImage()
         setUpViews()
         setUpConstraints()
-        hideKeyboardFunction()
+        loginButtonTapped()
        
         errorIcon.isHidden = true
         errorLabel.isHidden = true
@@ -90,7 +91,9 @@ final class SignInViewController: UIViewController,UITextFieldDelegate {
         view.addSubview(signEmailField)
         
         signPasswordField.setPlaceholder("Password")
+        signPasswordField.isSecureTextEntry = true
         view.addSubview(signPasswordField)
+        
         
     }
     private func setUpButtons(){
@@ -108,6 +111,9 @@ final class SignInViewController: UIViewController,UITextFieldDelegate {
         signUpButton.setTitle("Sign up now", for: .normal)
         signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         view.addSubview(signUpButton)
+        
+        signInButtonStackView.setButtonTitle("Sign In")
+        view.addSubview(signInButtonStackView)
         
     }
     private func setUpConstraints(){
@@ -211,11 +217,84 @@ final class SignInViewController: UIViewController,UITextFieldDelegate {
             navigationController?.pushViewController(forgotVC, animated: true)
                 
     }
-    @objc private func loginButtonTapped(){
-       
-        }
-    
+    private func loginButtonTapped(){
+        signInButtonStackView.buttonTappedHandler = {
+            let email = signEmailField.text ?? ""
+            let password = signPasswordField.text ?? ""
+            
+            let validationResult = InputValidator.validateInputs(fullName: "nsdsdsdil", email: email, password: password)
+            
+            switch validationResult {
+            case .success:
+                let loginRequest = LoginRequest(email: email, password: password)
+                service.requestWithAlamofire(for: loginRequest) { [weak self] result in
+                    guard let self = self else { return }
+                    switch result {
+                    case .success(let response):
+                        accessToken = response.data?.accessToken ?? ""
 
+                       
+                            errorLabel.text = response.message
+                            print(response)
+                            print(response.code)
+                            
+                        signInButtonStackView.setButtonColor()
+                            errorLabel.isHidden = true
+                            errorIcon.isHidden = true
+                            moveForgotButton()
+                            navigateToMain()
+                        
+                        print(response)
+                                 
+                    case .failure(let error):
+                        
+                        if let errorResponse = error as? ErrorResponse {
+                                            print("Error Code: \(errorResponse.code)")
+                                            print("Error Message: \(errorResponse.message)")
+                            self.showError(message: errorResponse.message, field: signPasswordField)
+                                           
+                                        } else {
+                                            print("General Error: \(error.localizedDescription)")
+                                            
+                                           
+                                        }
+                    }
+                }
+            case .failure(let message):
+                let invalidField: UITextField?
+                
+                
+                if message == ValidationConstant.emailRequired || message == ValidationConstant.invalidEmail {
+                    invalidField = signEmailField
+                } else if message == ValidationConstant.passwordRequired || message == ValidationConstant.invalidPassword {
+                    invalidField = signPasswordField
+                } else {
+                    invalidField = nil
+                }
+                
+                self.showError(message: message, field: invalidField)
+            
+        }
+        }
+        }
+    func moveForgotButton() {
+        if errorLabel.isHidden {
+            forgotButtonTopConstraint.constant = 12
+        } else {
+            forgotButtonTopConstraint.constant = 48
+        }
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    private func navigateToMain() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                let homeVC = HomeViewController()
+                self.navigationController?.navigationBar.isHidden = true
+                self.navigationController?.pushViewController(homeVC, animated: true)
+            }
+        
+        }
     @objc private func signUpButtonTapped(){
         if isButtonTapped {
                 return

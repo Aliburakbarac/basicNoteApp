@@ -7,15 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		762E4FB4BBFA4394F05FA7FD /* Pods_basicNoteApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37D597434511FAAAD4640FE2 /* Pods_basicNoteApp.framework */; };
 		973B95F22A77C53900C7E779 /* ButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B95F12A77C53900C7E779 /* ButtonStackView.swift */; };
 		973B95F52A77CEC700C7E779 /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B95F42A77CEC700C7E779 /* AuthTextField.swift */; };
 		973B95F82A77D08900C7E779 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B95F72A77D08900C7E779 /* ForgotPasswordViewController.swift */; };
 		973B95FA2A77D09800C7E779 /* ForgotPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B95F92A77D09800C7E779 /* ForgotPasswordViewModel.swift */; };
-		974F27E22A66FFAE0079EF94 /* requestMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F27E12A66FFAE0079EF94 /* requestMethod.swift */; };
-		974F27E42A67031F0079EF94 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974F27E32A67031F0079EF94 /* APIManager.swift */; };
-		97C546982A713B1F00F16CE1 /* BaseResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C546972A713B1F00F16CE1 /* BaseResponseModel.swift */; };
-		97C5469A2A713C0B00F16CE1 /* AuthResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C546992A713C0B00F16CE1 /* AuthResponseModel.swift */; };
-		97C5469C2A7165C200F16CE1 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C5469B2A7165C200F16CE1 /* APIRequest.swift */; };
+		973B95FD2A787FA200C7E779 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B95FC2A787FA200C7E779 /* BaseViewController.swift */; };
+		973B95FF2A79D4FF00C7E779 /* Notes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B95FE2A79D4FF00C7E779 /* Notes.swift */; };
+		973B96062A79D55900C7E779 /* UserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B96052A79D55900C7E779 /* UserRequest.swift */; };
+		973B96082A79D56900C7E779 /* GetMyNotesRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B96072A79D56900C7E779 /* GetMyNotesRequests.swift */; };
+		973B960A2A79D57800C7E779 /* RegisterRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B96092A79D57800C7E779 /* RegisterRequest.swift */; };
+		973B960C2A79D57E00C7E779 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B960B2A79D57E00C7E779 /* LoginRequest.swift */; };
+		973B960E2A79D58F00C7E779 /* GetNoteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B960D2A79D58F00C7E779 /* GetNoteRequest.swift */; };
+		973B96112A79D5DB00C7E779 /* RequestProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B96102A79D5DB00C7E779 /* RequestProtocol.swift */; };
+		973B96132A79D5E600C7E779 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B96122A79D5E600C7E779 /* NetworkManager.swift */; };
+		973B96152A79E16700C7E779 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B96142A79E16700C7E779 /* ErrorResponse.swift */; };
+		973B96192A79F3E500C7E779 /* ForgotRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973B96182A79F3E500C7E779 /* ForgotRequest.swift */; };
+		97C546982A713B1F00F16CE1 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C546972A713B1F00F16CE1 /* BaseResponse.swift */; };
+		97C5469A2A713C0B00F16CE1 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C546992A713C0B00F16CE1 /* Auth.swift */; };
 		97CAD5A32A5EAA1100ADB7B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CAD5A22A5EAA1100ADB7B3 /* AppDelegate.swift */; };
 		97CAD5A52A5EAA1100ADB7B3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CAD5A42A5EAA1100ADB7B3 /* SceneDelegate.swift */; };
 		97CAD5A72A5EAA1100ADB7B3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CAD5A62A5EAA1100ADB7B3 /* ViewController.swift */; };
@@ -33,16 +42,25 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		37D597434511FAAAD4640FE2 /* Pods_basicNoteApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_basicNoteApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C4BB222A86E6736BDAF9D0B /* Pods-basicNoteApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-basicNoteApp.release.xcconfig"; path = "Target Support Files/Pods-basicNoteApp/Pods-basicNoteApp.release.xcconfig"; sourceTree = "<group>"; };
 		973B95F12A77C53900C7E779 /* ButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStackView.swift; sourceTree = "<group>"; };
 		973B95F42A77CEC700C7E779 /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
 		973B95F72A77D08900C7E779 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		973B95F92A77D09800C7E779 /* ForgotPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewModel.swift; sourceTree = "<group>"; };
-		974F27E12A66FFAE0079EF94 /* requestMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = requestMethod.swift; sourceTree = "<group>"; };
-		974F27E32A67031F0079EF94 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
-		97C546972A713B1F00F16CE1 /* BaseResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponseModel.swift; sourceTree = "<group>"; };
-		97C546992A713C0B00F16CE1 /* AuthResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponseModel.swift; sourceTree = "<group>"; };
-		97C5469B2A7165C200F16CE1 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
+		973B95FC2A787FA200C7E779 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		973B95FE2A79D4FF00C7E779 /* Notes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notes.swift; sourceTree = "<group>"; };
+		973B96052A79D55900C7E779 /* UserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRequest.swift; sourceTree = "<group>"; };
+		973B96072A79D56900C7E779 /* GetMyNotesRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMyNotesRequests.swift; sourceTree = "<group>"; };
+		973B96092A79D57800C7E779 /* RegisterRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterRequest.swift; sourceTree = "<group>"; };
+		973B960B2A79D57E00C7E779 /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
+		973B960D2A79D58F00C7E779 /* GetNoteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNoteRequest.swift; sourceTree = "<group>"; };
+		973B96102A79D5DB00C7E779 /* RequestProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestProtocol.swift; sourceTree = "<group>"; };
+		973B96122A79D5E600C7E779 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		973B96142A79E16700C7E779 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		973B96182A79F3E500C7E779 /* ForgotRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotRequest.swift; sourceTree = "<group>"; };
+		97C546972A713B1F00F16CE1 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
+		97C546992A713C0B00F16CE1 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		97CAD59F2A5EAA1100ADB7B3 /* basicNoteApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = basicNoteApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97CAD5A22A5EAA1100ADB7B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97CAD5A42A5EAA1100ADB7B3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				762E4FB4BBFA4394F05FA7FD /* Pods_basicNoteApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +104,7 @@
 		6CDDE5FB18561C90D18A3775 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37D597434511FAAAD4640FE2 /* Pods_basicNoteApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -121,6 +141,50 @@
 				973B95F92A77D09800C7E779 /* ForgotPasswordViewModel.swift */,
 			);
 			path = ForgotPassword;
+			sourceTree = "<group>";
+		};
+		973B95FB2A787F8F00C7E779 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				973B95FC2A787FA200C7E779 /* BaseViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		973B96022A79D53C00C7E779 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				973B96052A79D55900C7E779 /* UserRequest.swift */,
+				973B96072A79D56900C7E779 /* GetMyNotesRequests.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		973B96032A79D54100C7E779 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				973B96092A79D57800C7E779 /* RegisterRequest.swift */,
+				973B960B2A79D57E00C7E779 /* LoginRequest.swift */,
+				973B96182A79F3E500C7E779 /* ForgotRequest.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		973B96042A79D54600C7E779 /* Note */ = {
+			isa = PBXGroup;
+			children = (
+				973B960D2A79D58F00C7E779 /* GetNoteRequest.swift */,
+			);
+			path = Note;
+			sourceTree = "<group>";
+		};
+		973B960F2A79D5CC00C7E779 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				973B96102A79D5DB00C7E779 /* RequestProtocol.swift */,
+				973B96122A79D5E600C7E779 /* NetworkManager.swift */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 		97CAD5962A5EAA1100ADB7B3 = {
@@ -162,6 +226,7 @@
 		97CAD5B62A5EDDC800ADB7B3 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				973B95FB2A787F8F00C7E779 /* Base */,
 				97CAD5D02A606B2300ADB7B3 /* Home */,
 				97CAD5B72A5EDDD500ADB7B3 /* Auth */,
 			);
@@ -215,6 +280,7 @@
 		97CAD5C42A6020AF00ADB7B3 /* DataProvider */ = {
 			isa = PBXGroup;
 			children = (
+				973B960F2A79D5CC00C7E779 /* Core */,
 				97CAD5CD2A602A5F00ADB7B3 /* Requests */,
 				97CAD5C52A6020B600ADB7B3 /* Model */,
 			);
@@ -225,9 +291,10 @@
 			isa = PBXGroup;
 			children = (
 				97CAD5C62A6020D300ADB7B3 /* User.swift */,
-				974F27E12A66FFAE0079EF94 /* requestMethod.swift */,
-				97C546972A713B1F00F16CE1 /* BaseResponseModel.swift */,
-				97C546992A713C0B00F16CE1 /* AuthResponseModel.swift */,
+				97C546972A713B1F00F16CE1 /* BaseResponse.swift */,
+				97C546992A713C0B00F16CE1 /* Auth.swift */,
+				973B95FE2A79D4FF00C7E779 /* Notes.swift */,
+				973B96142A79E16700C7E779 /* ErrorResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -252,8 +319,9 @@
 		97CAD5CD2A602A5F00ADB7B3 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
-				974F27E32A67031F0079EF94 /* APIManager.swift */,
-				97C5469B2A7165C200F16CE1 /* APIRequest.swift */,
+				973B96042A79D54600C7E779 /* Note */,
+				973B96032A79D54100C7E779 /* Auth */,
+				973B96022A79D53C00C7E779 /* User */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -293,6 +361,7 @@
 				97CAD59B2A5EAA1100ADB7B3 /* Sources */,
 				97CAD59C2A5EAA1100ADB7B3 /* Frameworks */,
 				97CAD59D2A5EAA1100ADB7B3 /* Resources */,
+				4BCD8CCA9B8151BABB308595 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -349,6 +418,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		4BCD8CCA9B8151BABB308595 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-basicNoteApp/Pods-basicNoteApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-basicNoteApp/Pods-basicNoteApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-basicNoteApp/Pods-basicNoteApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B487DF2A7C7062B5C3D39960 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -378,27 +464,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97C546982A713B1F00F16CE1 /* BaseResponseModel.swift in Sources */,
+				97C546982A713B1F00F16CE1 /* BaseResponse.swift in Sources */,
 				97CAD5D52A6143A600ADB7B3 /* SignInViewController.swift in Sources */,
+				973B96062A79D55900C7E779 /* UserRequest.swift in Sources */,
 				97CAD5A72A5EAA1100ADB7B3 /* ViewController.swift in Sources */,
 				973B95FA2A77D09800C7E779 /* ForgotPasswordViewModel.swift in Sources */,
-				974F27E22A66FFAE0079EF94 /* requestMethod.swift in Sources */,
-				97C5469A2A713C0B00F16CE1 /* AuthResponseModel.swift in Sources */,
+				97C5469A2A713C0B00F16CE1 /* Auth.swift in Sources */,
 				97CAD5BC2A5EDE6600ADB7B3 /* RegisterViewModel.swift in Sources */,
 				97CAD5D72A614E4900ADB7B3 /* Keyboard+Extensions.swift in Sources */,
+				973B96112A79D5DB00C7E779 /* RequestProtocol.swift in Sources */,
 				97CAD5DA2A61511400ADB7B3 /* InputValidator.swift in Sources */,
 				973B95F22A77C53900C7E779 /* ButtonStackView.swift in Sources */,
 				97CAD5A32A5EAA1100ADB7B3 /* AppDelegate.swift in Sources */,
 				97CAD5A52A5EAA1100ADB7B3 /* SceneDelegate.swift in Sources */,
 				97CAD5D22A606B3B00ADB7B3 /* HomeViewController.swift in Sources */,
+				973B960A2A79D57800C7E779 /* RegisterRequest.swift in Sources */,
+				973B96192A79F3E500C7E779 /* ForgotRequest.swift in Sources */,
+				973B95FD2A787FA200C7E779 /* BaseViewController.swift in Sources */,
 				97CAD5CC2A6023B400ADB7B3 /* ValidationConstants.swift in Sources */,
 				97CAD5BA2A5EDE5800ADB7B3 /* RegisterViewController.swift in Sources */,
-				974F27E42A67031F0079EF94 /* APIManager.swift in Sources */,
-				97C5469C2A7165C200F16CE1 /* APIRequest.swift in Sources */,
+				973B960E2A79D58F00C7E779 /* GetNoteRequest.swift in Sources */,
+				973B960C2A79D57E00C7E779 /* LoginRequest.swift in Sources */,
 				973B95F82A77D08900C7E779 /* ForgotPasswordViewController.swift in Sources */,
+				973B95FF2A79D4FF00C7E779 /* Notes.swift in Sources */,
+				973B96082A79D56900C7E779 /* GetMyNotesRequests.swift in Sources */,
+				973B96132A79D5E600C7E779 /* NetworkManager.swift in Sources */,
 				97CAD5C02A6015EF00ADB7B3 /* TextField+Extensions.swift in Sources */,
 				973B95F52A77CEC700C7E779 /* AuthTextField.swift in Sources */,
 				97CAD5C72A6020D300ADB7B3 /* User.swift in Sources */,
+				973B96152A79E16700C7E779 /* ErrorResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

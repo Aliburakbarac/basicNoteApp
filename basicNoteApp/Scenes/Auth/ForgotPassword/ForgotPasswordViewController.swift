@@ -7,21 +7,21 @@
 
 import UIKit
 
-final class ForgotPasswordViewController: UIViewController,UITextFieldDelegate {
+final class ForgotPasswordViewController: BaseViewController,UITextFieldDelegate {
     
     private let forgotLabel = UILabel()
     private let forgotSubLabel = UILabel()
     private let emailField = AuthReusableTextfield()
     private let resetButton = ReusableButtonStackView()
+    
+    var service = NetworkManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
         emailField.delegate = self
-        hideKeyboardFunction()
         setUpViews()
         applyConstraints()
-
+        forgotClicked()
     }
     func setUpViews(){
         
@@ -38,7 +38,7 @@ final class ForgotPasswordViewController: UIViewController,UITextFieldDelegate {
         forgotSubLabel.numberOfLines = 0
         forgotSubLabel.lineBreakMode = .byWordWrapping
         forgotSubLabel.textAlignment = .center
-        forgotSubLabel.text = "Confirm your email and we’llsend\nthe instructions."
+        forgotSubLabel.text = "Confirm your email and we’ll send the instructions."
         view.addSubview(forgotSubLabel)
         
         emailField.setPlaceholder("Email Adress")
@@ -84,6 +84,35 @@ final class ForgotPasswordViewController: UIViewController,UITextFieldDelegate {
         ])
         forgotSubLabel.sizeToFit()
         
+    }
+    private func forgotClicked(){
+        resetButton.buttonTappedHandler = {
+            let forgotRequest = ForgotRequest(email: self.emailField.text ?? "")
+            self.service.requestWithAlamofire(for: forgotRequest) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(let response):
+
+                    DispatchQueue.main.async {
+                        print("yollandı")
+    
+                    }
+                    print(response)
+
+                case .failure(let error):
+                    if let errorResponse = error as? ErrorResponse {
+                                        print("Error Code: \(errorResponse.code)")
+                                        print("Error Message: \(errorResponse.message)")
+                                       
+                                    } else {
+                                        print("General Error: \(error.localizedDescription)")
+                                        
+                                       
+                                    }
+                }
+            }
+        
+        }
     }
 
     /*

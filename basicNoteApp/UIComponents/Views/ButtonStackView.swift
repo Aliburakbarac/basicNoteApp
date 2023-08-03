@@ -49,5 +49,9 @@ class ReusableButtonStackView: UIStackView {
     func setButtonTitle(_ title: String) {
         button.setTitle(title, for: .normal)
     }
+    func setButtonColor(){
+        button.backgroundColor = UIColor(red: 0.55, green: 0.55, blue: 1, alpha: 1)
+        button.setTitleColor(.white, for: .normal)
+    }
     
 }

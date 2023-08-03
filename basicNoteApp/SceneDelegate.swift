@@ -28,6 +28,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let navViewController = UINavigationController(rootViewController: viewController)
             window?.rootViewController = navViewController
         
+        
+        
 
     }
 

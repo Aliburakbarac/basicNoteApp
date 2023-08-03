@@ -50,3 +50,4 @@ extension ForgotPasswordViewController {
         textField.layer.borderColor = UIColor(red: 0.886, green: 0.902, blue: 0.918, alpha: 1).cgColor
     }
 }
+

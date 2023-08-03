@@ -7,7 +7,7 @@
 
 import UIKit
 
- final class RegisterViewController: UIViewController, UITextFieldDelegate {
+ final class RegisterViewController: BaseViewController, UITextFieldDelegate {
     private let signUpLabel = UILabel()
     private let subtitleLabel = UILabel()
     private let fullnameField = AuthReusableTextfield()
@@ -22,16 +22,15 @@ import UIKit
     private var forgotButtonTopConstraint: NSLayoutConstraint!
     private let validation = InputValidator()
     
-    private var registerViewModel: RegisterViewModel!
-     
+     var service = NetworkManager()
+     var accessToken = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         fullnameField.delegate = self
         emailField.delegate = self
         passwordField.delegate = self
-        hideKeyboardFunction()
-        view.backgroundColor = .systemBackground
         setUpLabel()
         setUpTextFields()
         setUpViews()
@@ -40,25 +39,18 @@ import UIKit
         applyConstraints()
         registerClicked()
         
-        var backImage = UIImage(named: "Path.png")
-        backImage = backImage?.stretchableImage(withLeftCapWidth: 15, topCapHeight: 30)
-        self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.backIndicatorImage = backImage
-        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
-        
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
         errorIcon.isHidden = true
         errorLabel.isHidden = true
         
         
         
-        registerViewModel = RegisterViewModel(registerAPI: APIRequest())
+        
         
         
       
         // Do any additional setup after loading the view.
     }
+
     
      func setUpImages(){
          errorIcon.frame = CGRect(x: 0, y: 0, width: 16, height: 16)
@@ -70,7 +62,6 @@ import UIKit
         signUpLabel.frame = CGRect(x: 0, y: 0, width: 327, height: 31)
         signUpLabel.textColor = UIColor(red: 0.137, green: 0.137, blue: 0.235, alpha: 1)
         signUpLabel.font = .boldSystemFont(ofSize: 26)
-        // Line height: 31 pt
         signUpLabel.textAlignment = .center
         signUpLabel.text = "Sign Up"
         view.addSubview(signUpLabel)
@@ -78,7 +69,6 @@ import UIKit
         subtitleLabel.frame = CGRect(x: 0, y: 0, width: 327, height: 18)
         subtitleLabel.textColor = UIColor(red: 0.514, green: 0.552, blue: 0.571, alpha: 1)
         subtitleLabel.font = UIFont(name: "Inter-Medium", size: 15)
-        // Line height: 18 pt
         subtitleLabel.textAlignment = .center
         subtitleLabel.text = "Login or sign up to continue using our app."
         view.addSubview(subtitleLabel)
@@ -86,14 +76,12 @@ import UIKit
         alreadyLabel.frame = CGRect(x: 0, y: 0, width: 200, height: 18)
         alreadyLabel.textColor = UIColor(red: 0.51, green: 0.55, blue: 0.57, alpha: 1)
         alreadyLabel.font = UIFont(name: "Inter-Medium", size: 15)
-        // Line height: 18 pt
         alreadyLabel.text = "Already have an account?"
         view.addSubview(alreadyLabel)
         
         errorLabel.frame = CGRect(x: 0, y: 0, width: 150, height: 13)
         errorLabel.textColor = UIColor(red: 0.867, green: 0.173, blue: 0, alpha: 1)
         errorLabel.font = UIFont(name: "Inter-Medium", size: 11)
-        // Line height: 13 pt
         errorLabel.text = "Password Invalid"
         view.addSubview(errorLabel)
         
@@ -107,7 +95,63 @@ import UIKit
      }
      func registerClicked(){
          buttonStackView.buttonTappedHandler = {
-             print("Button tapped!")
+             let fullName = self.fullnameField.text ?? ""
+             let email = self.emailField.text ?? ""
+             let password = self.passwordField.text ?? ""
+             
+             let validationResult = InputValidator.validateInputs(fullName: fullName, email: email, password: password)
+             
+             switch validationResult {
+             case .success:
+                 let registerRequest = RegisterRequest(fullName: fullName, email: email, password: password)
+                 self.service.requestWithAlamofire(for: registerRequest) { [weak self] result in
+                     guard let self = self else { return }
+                     switch result {
+                     case .success(let response):
+                         self.accessToken = response.data?.accessToken ?? ""
+
+                        
+                             self.errorLabel.text = response.message
+                             print(response)
+                             print(response.code)
+                             self.changeColorSuccess()
+                             
+                             self.errorLabel.isHidden = true
+                             self.errorIcon.isHidden = true
+                             self.moveForgotButton()
+                             self.navigateToMain() 
+                         
+                         print(response)
+                                  
+                     case .failure(let error):
+                         
+                         if let errorResponse = error as? ErrorResponse {
+                                             print("Error Code: \(errorResponse.code)")
+                                             print("Error Message: \(errorResponse.message)")
+                             self.showError(message: errorResponse.message, field: self.fullnameField)
+                                            
+                                         } else {
+                                             print("General Error: \(error.localizedDescription)")
+                                             
+                                            
+                                         }
+                     }
+                 }
+             case .failure(let message):
+                 let invalidField: UITextField?
+                 
+                 if message == ValidationConstant.fullNameRequired || message == ValidationConstant.fullNameMaxLength {
+                     invalidField = self.fullnameField
+                 } else if message == ValidationConstant.emailRequired || message == ValidationConstant.invalidEmail {
+                     invalidField = self.emailField
+                 } else if message == ValidationConstant.passwordRequired || message == ValidationConstant.invalidPassword {
+                     invalidField = self.passwordField
+                 } else {
+                     invalidField = nil
+                 }
+                 
+                 self.showError(message: message, field: invalidField)
+             }
          }
      }
     func setUpTextFields(){
@@ -115,6 +159,7 @@ import UIKit
         fullnameField.setPlaceholder("Full Name")
         emailField.setPlaceholder("Email Adress")
         passwordField.setPlaceholder("Password")
+        passwordField.isSecureTextEntry = true
         
         view.addSubview(fullnameField)
         view.addSubview(emailField)
@@ -125,8 +170,6 @@ import UIKit
         
         forgotButton.frame = CGRect(x: 0, y: 0, width: 121, height: 17)
         forgotButton.titleLabel?.font = UIFont(name: "Inter-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
-        // Line height: 17 pt
-        // (identical to box height)
         forgotButton.setTitle("Forgot Password?", for: .normal)
         forgotButton.setTitleColor(.black, for: .normal)
         forgotButton.addTarget(self, action: #selector(forgotButtonTapped), for: .touchUpInside)
@@ -137,7 +180,6 @@ import UIKit
         signInButton.frame = CGRect(x: 0, y: 0, width: 90, height: 18)
         signInButton.setTitleColor(UIColor(red: 0.55, green: 0.55, blue: 1, alpha: 1), for: .normal)
         signInButton.titleLabel?.font = UIFont(name: "Inter-Medium", size: 15)
-        // Line height: 18 pt
         signInButton.setTitle("Sign in now", for: .normal)
         signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         view.addSubview(signInButton)
@@ -234,6 +276,7 @@ import UIKit
         
     }
      func showError(message: String, field: UITextField?) {
+
          field?.layer.borderColor = UIColor.red.cgColor
          field?.layer.borderWidth = 1.0
          
@@ -270,61 +313,16 @@ import UIKit
          navigationController?.pushViewController(forgotVC, animated: true)
          }
          
-     @objc func registerButtonTapped() {
-         let fullName = fullnameField.text ?? ""
-         let email = emailField.text ?? ""
-         let password = passwordField.text ?? ""
-         
-         let validationResult = InputValidator.validateInputs(fullName: fullName, email: email, password: password)
-         
-         switch validationResult {
-         case .success:
-             let user = User(fullName: fullName, email: email, password: password)
-             
-             registerViewModel.registerUser(user:user) { [weak self] result in
-                 DispatchQueue.main.async {
-                     switch result {
-                     case .success(let response):
-                         print(response)
-                         print(response.code)
-                         self?.changeColorSuccess()
-                         
-                         self?.errorLabel.isHidden = true
-                         self?.errorIcon.isHidden = true
-                         self?.moveForgotButton()
-                         self?.navigateToMain()
-                         
-                     case .failure(let error):
-                         self?.showError(message: error.localizedDescription, field: self?.passwordField)
-                         self?.moveForgotButton()
-                         print(String(describing: error))
-                         
-                     }
-                 }
-             }
-         case .failure(let message):
-             let invalidField: UITextField?
-             
-             if message == ValidationConstant.fullNameRequired || message == ValidationConstant.fullNameMaxLength {
-                 invalidField = fullnameField
-             } else if message == ValidationConstant.emailRequired || message == ValidationConstant.invalidEmail {
-                 invalidField = emailField
-             } else if message == ValidationConstant.passwordRequired || message == ValidationConstant.invalidPassword {
-                 invalidField = passwordField
-             } else {
-                 invalidField = nil
-             }
-             
-             showError(message: message, field: invalidField)
-         }
-     }
-         
     @objc func signInButtonTapped() {
              let signInVC = SignInViewController()
-             self.navigationController?.navigationBar.isHidden = true
+            self.navigationController?.navigationBar.isHidden = true
              self.navigationController?.pushViewController(signInVC, animated: true)
+        
+            
              
     }
+     
+     
      func moveForgotButton() {
          if errorLabel.isHidden {
              forgotButtonTopConstraint.constant = 12
@@ -336,7 +334,7 @@ import UIKit
          }
      }
      func changeColorSuccess(){
-         buttonStackView.backgroundColor = UIColor(red: 0.55, green: 0.55, blue: 1, alpha: 1)
+         buttonStackView.setButtonColor()
      }
 
 }
