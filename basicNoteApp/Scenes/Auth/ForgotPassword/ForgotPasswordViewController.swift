@@ -22,6 +22,11 @@ final class ForgotPasswordViewController: BaseViewController,UITextFieldDelegate
         setUpViews()
         applyConstraints()
         forgotClicked()
+        emailField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        checkTextFields()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = false
     }
     func setUpViews(){
         
@@ -89,20 +94,18 @@ final class ForgotPasswordViewController: BaseViewController,UITextFieldDelegate
         resetButton.buttonTappedHandler = {
             let forgotRequest = ForgotRequest(email: self.emailField.text ?? "")
             self.service.requestWithAlamofire(for: forgotRequest) { [weak self] result in
-                guard let self = self else { return }
+                guard self != nil else { return }
                 switch result {
                 case .success(let response):
 
                     DispatchQueue.main.async {
-                        print("yollandı")
-    
+                        ToastPresenter.showSuccessToast(text: response.message!)
                     }
                     print(response)
 
                 case .failure(let error):
                     if let errorResponse = error as? ErrorResponse {
-                                        print("Error Code: \(errorResponse.code)")
-                                        print("Error Message: \(errorResponse.message)")
+                        ToastPresenter.showWarningToast(text: errorResponse.message)
                                        
                                     } else {
                                         print("General Error: \(error.localizedDescription)")
@@ -114,7 +117,17 @@ final class ForgotPasswordViewController: BaseViewController,UITextFieldDelegate
         
         }
     }
-
+    public func checkTextFields() {
+        if let  text2 = emailField.text, !text2.isEmpty {
+            
+                resetButton.isEnabled()
+            } else {
+               
+            }
+        }
+    @objc func textFieldDidChange(_ textField: UITextField) {
+            checkTextFields()
+        }
     /*
     // MARK: - Navigation
 

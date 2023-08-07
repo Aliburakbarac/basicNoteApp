@@ -12,6 +12,18 @@ class ReusableButtonStackView: UIStackView {
     
     var buttonTappedHandler: (() -> Void)?
     
+    var iconImageName: String? {
+            didSet {
+                if let iconName = iconImageName {
+                    let icon = UIImage(named: iconName)
+                    button.setImage(icon, for: .normal)
+                    
+                }
+            }
+        }
+    
+    
+    
     init() {
         super.init(frame: .zero)
         setupStackView()
@@ -39,6 +51,8 @@ class ReusableButtonStackView: UIStackView {
         button.titleLabel?.font = UIFont(name: "Inter-SemiBold", size: 16)
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         
+        button.isEnabled = false
+        
         addArrangedSubview(button)
     }
     
@@ -49,7 +63,12 @@ class ReusableButtonStackView: UIStackView {
     func setButtonTitle(_ title: String) {
         button.setTitle(title, for: .normal)
     }
-    func setButtonColor(){
+    func colorChange(){
+        button.backgroundColor = UIColor(red: 0.55, green: 0.55, blue: 1, alpha: 1)
+        button.setTitleColor(.white, for: .normal)
+    }
+    func isEnabled(){
+        button.isEnabled = true
         button.backgroundColor = UIColor(red: 0.55, green: 0.55, blue: 1, alpha: 1)
         button.setTitleColor(.white, for: .normal)
     }

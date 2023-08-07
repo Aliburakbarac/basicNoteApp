@@ -31,6 +31,11 @@ import UIKit
         fullnameField.delegate = self
         emailField.delegate = self
         passwordField.delegate = self
+        fullnameField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        emailField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        passwordField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        checkTextFields()
+        
         setUpLabel()
         setUpTextFields()
         setUpViews()
@@ -38,19 +43,15 @@ import UIKit
         setUpImages()
         applyConstraints()
         registerClicked()
-        
+    
         errorIcon.isHidden = true
         errorLabel.isHidden = true
-        
-        
-        
-        
-        
-        
-      
+
         // Do any additional setup after loading the view.
     }
-
+     override func viewDidAppear(_ animated: Bool) {
+         navigationController?.navigationBar.isHidden = true
+     }
     
      func setUpImages(){
          errorIcon.frame = CGRect(x: 0, y: 0, width: 16, height: 16)
@@ -112,10 +113,6 @@ import UIKit
 
                         
                              self.errorLabel.text = response.message
-                             print(response)
-                             print(response.code)
-                             self.changeColorSuccess()
-                             
                              self.errorLabel.isHidden = true
                              self.errorIcon.isHidden = true
                              self.moveForgotButton()
@@ -126,9 +123,7 @@ import UIKit
                      case .failure(let error):
                          
                          if let errorResponse = error as? ErrorResponse {
-                                             print("Error Code: \(errorResponse.code)")
-                                             print("Error Message: \(errorResponse.message)")
-                             self.showError(message: errorResponse.message, field: self.fullnameField)
+                             ToastPresenter.showWarningToast(text: errorResponse.message)
                                             
                                          } else {
                                              print("General Error: \(error.localizedDescription)")
@@ -302,8 +297,7 @@ import UIKit
      private func navigateToMain() {
          DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                  let homeVC = HomeViewController()
-                 self.navigationController?.navigationBar.isHidden = true
-                 self.navigationController?.pushViewController(homeVC, animated: true)
+             self.navigationController?.pushViewController(homeVC, animated: true)
              }
          
          }
@@ -315,13 +309,24 @@ import UIKit
          
     @objc func signInButtonTapped() {
              let signInVC = SignInViewController()
-            self.navigationController?.navigationBar.isHidden = true
              self.navigationController?.pushViewController(signInVC, animated: true)
         
             
              
     }
-     
+     public func checkTextFields() {
+             if let text1 = fullnameField.text, !text1.isEmpty,
+                let text2 = emailField.text, !text2.isEmpty,
+                let text3 = passwordField.text, !text3.isEmpty {
+                 
+                 buttonStackView.isEnabled()
+             } else {
+                
+             }
+         }
+     @objc func textFieldDidChange(_ textField: UITextField) {
+             checkTextFields()
+         }
      
      func moveForgotButton() {
          if errorLabel.isHidden {
@@ -333,9 +338,7 @@ import UIKit
              self.view.layoutIfNeeded()
          }
      }
-     func changeColorSuccess(){
-         buttonStackView.setButtonColor()
-     }
+     
 
 }
 

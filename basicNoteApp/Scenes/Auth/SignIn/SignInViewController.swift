@@ -30,6 +30,9 @@ final class SignInViewController: BaseViewController,UITextFieldDelegate {
         super.viewDidLoad()
         signEmailField.delegate = self
         signPasswordField.delegate = self
+        signEmailField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        signPasswordField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        checkTextFields()
         
         setLabels()
         setTextFields()
@@ -42,7 +45,11 @@ final class SignInViewController: BaseViewController,UITextFieldDelegate {
         errorIcon.isHidden = true
         errorLabel.isHidden = true
         
+        
         // Do any additional setup after loading the view.
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
     }
     func setUpViews(){
        signInButtonStackView.setButtonTitle("Sign Up")
@@ -182,7 +189,7 @@ final class SignInViewController: BaseViewController,UITextFieldDelegate {
             errorIcon.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
             errorIcon.topAnchor.constraint(equalTo: signPasswordField.bottomAnchor, constant: 9),
             
-            errorLabel.widthAnchor.constraint(equalToConstant: 200),
+            errorLabel.widthAnchor.constraint(equalToConstant: 350),
             errorLabel.heightAnchor.constraint(equalToConstant: 18),
             errorLabel.leadingAnchor.constraint(equalTo: errorIcon.trailingAnchor, constant: 5),
             errorLabel.topAnchor.constraint(equalTo: signPasswordField.bottomAnchor, constant: 8)
@@ -235,10 +242,6 @@ final class SignInViewController: BaseViewController,UITextFieldDelegate {
 
                        
                             errorLabel.text = response.message
-                            print(response)
-                            print(response.code)
-                            
-                        signInButtonStackView.setButtonColor()
                             errorLabel.isHidden = true
                             errorIcon.isHidden = true
                             moveForgotButton()
@@ -249,9 +252,7 @@ final class SignInViewController: BaseViewController,UITextFieldDelegate {
                     case .failure(let error):
                         
                         if let errorResponse = error as? ErrorResponse {
-                                            print("Error Code: \(errorResponse.code)")
-                                            print("Error Message: \(errorResponse.message)")
-                            self.showError(message: errorResponse.message, field: signPasswordField)
+                            ToastPresenter.showWarningToast(text: errorResponse.message)
                                            
                                         } else {
                                             print("General Error: \(error.localizedDescription)")
@@ -290,7 +291,6 @@ final class SignInViewController: BaseViewController,UITextFieldDelegate {
     private func navigateToMain() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 let homeVC = HomeViewController()
-                self.navigationController?.navigationBar.isHidden = true
                 self.navigationController?.pushViewController(homeVC, animated: true)
             }
         
@@ -311,6 +311,18 @@ final class SignInViewController: BaseViewController,UITextFieldDelegate {
             
             isButtonTapped = false
     }
+    public func checkTextFields() {
+            if let text2 = signEmailField.text, !text2.isEmpty,
+               let text3 = signPasswordField.text, !text3.isEmpty {
+                
+                signInButtonStackView.isEnabled()
+            } else {
+               
+            }
+        }
+    @objc func textFieldDidChange(_ textField: UITextField) {
+            checkTextFields()
+        }
     /*
     // MARK: - Navigation
 
