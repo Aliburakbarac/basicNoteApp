@@ -12,12 +12,12 @@ public class ToastPresenter {
     private static var toastView: ToastWarningView?
 
     public static func showWarningToast(text: String) {
-        showCustomToast(text: text, backgroundColor: .red)
+        showCustomToast(text: text, backgroundColor: .appRed)
     }
 
     public static func showSuccessToast(text: String) {
         
-        showCustomToast(text: text, backgroundColor: .green)
+        showCustomToast(text: text, backgroundColor: .appGreen)
     }
 
     private static func showCustomToast(text: String, backgroundColor: UIColor) {

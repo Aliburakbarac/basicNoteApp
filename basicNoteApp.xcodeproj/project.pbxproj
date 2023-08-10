@@ -38,6 +38,11 @@
 		97C0CFEB2A80E88F00EC77C8 /* AddNoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C0CFEA2A80E88F00EC77C8 /* AddNoteViewModel.swift */; };
 		97C0CFED2A80E89E00EC77C8 /* EditNoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C0CFEC2A80E89E00EC77C8 /* EditNoteViewModel.swift */; };
 		97C0CFEF2A80E8C300EC77C8 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C0CFEE2A80E8C300EC77C8 /* SignInViewModel.swift */; };
+		97C0CFF22A8502F200EC77C8 /* NoteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C0CFF12A8502F200EC77C8 /* NoteDetailViewController.swift */; };
+		97C0CFF42A8502FE00EC77C8 /* NoteDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C0CFF32A8502FE00EC77C8 /* NoteDetailViewModel.swift */; };
+		97C0CFF62A85092F00EC77C8 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C0CFF52A85092F00EC77C8 /* UIColor+Extensions.swift */; };
+		97C0CFF82A85093A00EC77C8 /* UIFont+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C0CFF72A85093900EC77C8 /* UIFont+Extensions.swift */; };
+		97C0CFFA2A852A6C00EC77C8 /* ViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C0CFF92A852A6C00EC77C8 /* ViewController+Extensions.swift */; };
 		97C546982A713B1F00F16CE1 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C546972A713B1F00F16CE1 /* BaseResponse.swift */; };
 		97C5469A2A713C0B00F16CE1 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C546992A713C0B00F16CE1 /* Auth.swift */; };
 		97CAD5A32A5EAA1100ADB7B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CAD5A22A5EAA1100ADB7B3 /* AppDelegate.swift */; };
@@ -89,6 +94,11 @@
 		97C0CFEA2A80E88F00EC77C8 /* AddNoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoteViewModel.swift; sourceTree = "<group>"; };
 		97C0CFEC2A80E89E00EC77C8 /* EditNoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNoteViewModel.swift; sourceTree = "<group>"; };
 		97C0CFEE2A80E8C300EC77C8 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		97C0CFF12A8502F200EC77C8 /* NoteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewController.swift; sourceTree = "<group>"; };
+		97C0CFF32A8502FE00EC77C8 /* NoteDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailViewModel.swift; sourceTree = "<group>"; };
+		97C0CFF52A85092F00EC77C8 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		97C0CFF72A85093900EC77C8 /* UIFont+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extensions.swift"; sourceTree = "<group>"; };
+		97C0CFF92A852A6C00EC77C8 /* ViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extensions.swift"; sourceTree = "<group>"; };
 		97C546972A713B1F00F16CE1 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
 		97C546992A713C0B00F16CE1 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		97CAD59F2A5EAA1100ADB7B3 /* basicNoteApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = basicNoteApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -264,6 +274,8 @@
 				97C0CFE82A80E87000EC77C8 /* EditNoteViewController.swift */,
 				97C0CFEA2A80E88F00EC77C8 /* AddNoteViewModel.swift */,
 				97C0CFEC2A80E89E00EC77C8 /* EditNoteViewModel.swift */,
+				97C0CFF12A8502F200EC77C8 /* NoteDetailViewController.swift */,
+				97C0CFF32A8502FE00EC77C8 /* NoteDetailViewModel.swift */,
 			);
 			path = Note;
 			sourceTree = "<group>";
@@ -349,6 +361,9 @@
 				97CAD5BF2A6015EF00ADB7B3 /* TextField+Extensions.swift */,
 				97CAD5D62A614E4900ADB7B3 /* Keyboard+Extensions.swift */,
 				97A78FB82A7C1B6800F40C22 /* UIImage+Extensions.swift */,
+				97C0CFF52A85092F00EC77C8 /* UIColor+Extensions.swift */,
+				97C0CFF72A85093900EC77C8 /* UIFont+Extensions.swift */,
+				97C0CFF92A852A6C00EC77C8 /* ViewController+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -551,6 +566,7 @@
 			files = (
 				97C0CFEB2A80E88F00EC77C8 /* AddNoteViewModel.swift in Sources */,
 				97C546982A713B1F00F16CE1 /* BaseResponse.swift in Sources */,
+				97C0CFF22A8502F200EC77C8 /* NoteDetailViewController.swift in Sources */,
 				97CAD5D52A6143A600ADB7B3 /* SignInViewController.swift in Sources */,
 				973B96062A79D55900C7E779 /* UserRequest.swift in Sources */,
 				97C0CFE42A80C13600EC77C8 /* ToastPresenter.swift in Sources */,
@@ -561,6 +577,7 @@
 				97A78FBC2A7C255400F40C22 /* SearchBar.swift in Sources */,
 				97CAD5BC2A5EDE6600ADB7B3 /* RegisterViewModel.swift in Sources */,
 				97CAD5D72A614E4900ADB7B3 /* Keyboard+Extensions.swift in Sources */,
+				97C0CFFA2A852A6C00EC77C8 /* ViewController+Extensions.swift in Sources */,
 				97C0CFE92A80E87000EC77C8 /* EditNoteViewController.swift in Sources */,
 				973B96112A79D5DB00C7E779 /* RequestProtocol.swift in Sources */,
 				97CAD5DA2A61511400ADB7B3 /* InputValidator.swift in Sources */,
@@ -579,8 +596,11 @@
 				97CAD5BA2A5EDE5800ADB7B3 /* RegisterViewController.swift in Sources */,
 				973B960E2A79D58F00C7E779 /* GetNoteRequest.swift in Sources */,
 				97C0CFE22A80C12500EC77C8 /* ToastWarningView.swift in Sources */,
+				97C0CFF42A8502FE00EC77C8 /* NoteDetailViewModel.swift in Sources */,
 				973B960C2A79D57E00C7E779 /* LoginRequest.swift in Sources */,
 				97C0CFE72A80E86500EC77C8 /* AddNoteViewController.swift in Sources */,
+				97C0CFF82A85093A00EC77C8 /* UIFont+Extensions.swift in Sources */,
+				97C0CFF62A85092F00EC77C8 /* UIColor+Extensions.swift in Sources */,
 				973B95F82A77D08900C7E779 /* ForgotPasswordViewController.swift in Sources */,
 				970A67132A7C989300FA46AE /* ProfileViewController.swift in Sources */,
 				973B95FF2A79D4FF00C7E779 /* Notes.swift in Sources */,

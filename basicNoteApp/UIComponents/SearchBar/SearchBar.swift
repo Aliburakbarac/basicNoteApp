@@ -25,8 +25,8 @@ class NoteSearchBar: UISearchBar {
         searchTextField.backgroundColor = UIColor.clear 
         searchTextField.layer.borderWidth = 1
         searchTextField.layer.cornerRadius = 4
-        searchTextField.layer.borderColor = UIColor(red: 226/255, green: 230/255, blue: 234/255, alpha: 1).cgColor
-        searchTextField.textColor = UIColor(red: 131/255, green: 141/255, blue: 146/255, alpha: 1)
+        searchTextField.layer.borderColor = UIColor.appLightGray.cgColor
+        searchTextField.textColor = UIColor.appGray
         searchBarStyle = .prominent
 
     }

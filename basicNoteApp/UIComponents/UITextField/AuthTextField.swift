@@ -13,8 +13,8 @@ class AuthReusableTextfield: UITextField {
     var placeholderTitle = String()
     private let placeholderLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.gray
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.textColor = UIColor.appGray
+        label.font = .title6()
         return label
     }()
 
@@ -29,10 +29,11 @@ class AuthReusableTextfield: UITextField {
     }
     
     private func setupTextField() {
+        delegate = self
         self.frame = CGRect(x: 0, y: 0, width: 327, height: 53)
         self.layer.cornerRadius = 5
         self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor(red: 0.886, green: 0.902, blue: 0.918, alpha: 1).cgColor
+        self.layer.borderColor = UIColor.appLightGray.cgColor
         self.setLeftPaddingPoints(18)
         self.autocapitalizationType = .none
         
@@ -72,4 +73,17 @@ class AuthReusableTextfield: UITextField {
         placeholderLabel.text = placeholder
     }
 }
+extension AuthReusableTextfield: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.layer.borderColor = UIColor.appPurple.cgColor
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.layer.borderColor = UIColor.appLightGray.cgColor
+    }
+   
+}
+    
+    
+    
 

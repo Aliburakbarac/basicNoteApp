@@ -9,10 +9,35 @@ import UIKit
 
 final class AddNoteViewController: BaseViewController {
     
-    private let NoteView = UITextView()
-    private let NoteTitle = UILabel()
-    private let addButton = ReusableButtonStackView()
-    
+    private let NoteView: UITextView = {
+        let textView = UITextView()
+        textView.frame = CGRect(x: 0, y: 0, width: 375, height: 254)
+        textView.backgroundColor = .appLightGray
+        textView.font = .title2()
+        textView.text = "Note: "
+        textView.layer.cornerRadius = 3
+        return textView
+    }()
+    private let NoteTitle: UITextField = {
+        let textField = UITextField()
+        textField.frame = CGRect(x: 0, y: 0, width: 327, height: 27)
+        textField.textColor = .appBlack
+        textField.backgroundColor = .appLightGray
+        textField.placeholder = "Note Title:"
+        textField.font = .title22()
+        textField.layer.cornerRadius = 3
+        return textField
+    }()
+    private let addButton: ReusableButtonStackView = {
+       let button = ReusableButtonStackView()
+        button.setButtonTitle("Add Note")
+        button.isEnabled()
+        button.iconImageName = "ic_addnote"
+        return button
+    }()
+    override func viewWillAppear(_ animated: Bool) {
+        navigationItem.title = "Add Note"
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,31 +48,9 @@ final class AddNoteViewController: BaseViewController {
    
     
     private func setUpView(){
-        
-        NoteView.frame = CGRect(x: 0, y: 0, width: 375, height: 254)
-        NoteView.textColor = UIColor(red: 0.545, green: 0.584, blue: 0.604, alpha: 1)
-        NoteView.font = UIFont(name: "Inter-Medium", size: 16)
-        NoteView.text = "ASDLŞASFŞSDİFLSDŞFLSDİŞGLŞİSFDLGŞİDFLGİŞDFLGŞİDLFGŞİDFLGİŞDLFGŞİDFGLŞDİFGLŞİDFLGŞİDLFGŞİDFLGİDFŞGLDİŞFGLŞİDFLGDİŞFGLŞDİFGLDŞİFGLİDŞFGLŞİDGLŞİDFGLDİŞFGLDİŞFGLİDFŞGLDFİGŞLİDFGŞLDŞİGF"
-        NoteView.layer.borderWidth = 1
-        NoteView.layer.cornerRadius = 3
-        NoteView.layer.borderColor = UIColor.black.cgColor
-        
-        NoteTitle.frame = CGRect(x: 0, y: 0, width: 327, height: 27)
-        NoteTitle.textColor = UIColor(red: 0.137, green: 0.137, blue: 0.235, alpha: 1)
-        NoteTitle.font = UIFont(name: "Inter-SemiBold", size: 22)
-        NoteTitle.text = "Bu ilk not denemesi"
-        NoteTitle.layer.borderWidth = 2
-        NoteTitle.layer.cornerRadius = 3
-        NoteTitle.layer.borderColor = UIColor.purple.cgColor
-        
-        addButton.setButtonTitle("Add Note")
-        addButton.colorChange()
-        addButton.iconImageName = "ic_addnote"
-        
         view.addSubview(NoteView)
         view.addSubview(NoteTitle)
         view.addSubview(addButton)
-        
     }
     
     private func applyConstraints(){

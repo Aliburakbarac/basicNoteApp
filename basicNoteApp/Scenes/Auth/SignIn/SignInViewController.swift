@@ -7,37 +7,97 @@
 
 import UIKit
 
-private let loginLabel = UILabel()
-private let loginSubLabel = UILabel()
-private let signEmailField = AuthReusableTextfield()
-private let signPasswordField = AuthReusableTextfield()
-private let forgotButton = UIButton()
-private let signInButtonStackView = ReusableButtonStackView()
-private let alreadyLabel = UILabel()
-private let signUpButton = UIButton()
-private let errorIcon = UIImageView()
-private let errorLabel = UILabel()
-private var forgotButtonTopConstraint: NSLayoutConstraint!
-private let validation = InputValidator()
-private var isButtonTapped = false
+final class SignInViewController: BaseViewController {
+    
+    private let loginLabel: UILabel = {
+        let label  = UILabel()
+        label.frame = CGRect(x: 0, y: 0, width: 327, height: 31)
+        label.textColor = .appBlack
+        label.font = .title1()
+        label.textAlignment = .center
+        label.text = "Login"
+        return label
+    }()
+    private let loginSubLabel: UILabel = {
+        let label = UILabel()
+        label.frame = CGRect(x: 0, y: 0, width: 327, height: 18)
+        label.textColor = .appGray
+        label.font = .title3()
+        label.textAlignment = .center
+        label.text = "Login or sign up to continue using our app."
+        return label
+    }()
+    private let signEmailField: AuthReusableTextfield = {
+        let textField = AuthReusableTextfield()
+        textField.setPlaceholder("Email Adress")
+        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        return textField
+    }()
+    private let signPasswordField: AuthReusableTextfield = {
+        let textField = AuthReusableTextfield()
+        textField.setPlaceholder("Password")
+        textField.isSecureTextEntry = true
+        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        return textField
+    }()
+    private let forgotButton: UIButton = {
+        let button = UIButton()
+        button.frame = CGRect(x: 0, y: 0, width: 121, height: 17)
+        button.titleLabel?.font = .title4()
+        button.setTitle("Forgot Password?", for: .normal)
+        button.setTitleColor(.appBlack, for: .normal)
+        button.addTarget(self, action: #selector(forgotButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    private let signInButtonStackView: ReusableButtonStackView = {
+        let button = ReusableButtonStackView()
+        button.setButtonTitle("Sign In")
+        return button
+    }()
+    private let alreadyLabel:UILabel = {
+        let label = UILabel()
+        label.frame = CGRect(x: 0, y: 0, width: 81, height: 18)
+        label.textColor = .appGray
+        label.font = .title3()
+        label.text = "New user?"
+        return label
+    }()
+    private let signUpButton: UIButton = {
+        let button = UIButton()
+        button.frame = CGRect(x: 0, y: 0, width: 87, height: 18)
+        button.setTitleColor(.appPurple, for: .normal)
+        button.titleLabel?.font = .title3()
+        button.setTitle("Sign up now", for: .normal)
+        button.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    private let errorIcon: UIImageView = {
+       
+        let errorIcon = UIImageView()
+        errorIcon.frame = CGRect(x: 0, y: 0, width: 327, height: 82)
+        errorIcon.image = UIImage(named: "ic_error")
+        errorIcon.contentMode = UIView.ContentMode.scaleAspectFit
+        return errorIcon
+    }()
+    private let errorLabel: UILabel = {
+        let label = UILabel()
+        label.frame = CGRect(x: 0, y: 0, width: 89, height: 13)
+        label.textColor = .appRed
+        label.font = .title5()
+        label.text = "Password Invalid"
+        return label
+    }()
+    private var forgotButtonTopConstraint: NSLayoutConstraint!
+    private let validation = InputValidator()
+    private var isButtonTapped = false
 
-var service = NetworkManager()
-var accessToken = ""
-
-final class SignInViewController: BaseViewController,UITextFieldDelegate {
-
+    var service = NetworkManager()
+    var accessToken = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        signEmailField.delegate = self
-        signPasswordField.delegate = self
-        signEmailField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        signPasswordField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+       
         checkTextFields()
-        
-        setLabels()
-        setTextFields()
-        setUpButtons()
-        setErrorImage()
         setUpViews()
         setUpConstraints()
         loginButtonTapped()
@@ -52,76 +112,17 @@ final class SignInViewController: BaseViewController,UITextFieldDelegate {
         navigationController?.navigationBar.isHidden = true
     }
     func setUpViews(){
-       signInButtonStackView.setButtonTitle("Login")
-       view.addSubview(signInButtonStackView)
-        
-        
-        
-    }
-    private func setErrorImage(){
-        errorIcon.frame = CGRect(x: 0, y: 0, width: 327, height: 82)
-        errorIcon.image = UIImage(named: "ic_error")
-        errorIcon.contentMode = UIView.ContentMode.scaleAspectFit
-        view.addSubview(errorIcon)
-    }
-    private func setLabels(){
-        loginLabel.frame = CGRect(x: 0, y: 0, width: 327, height: 31)
-        loginLabel.textColor = UIColor(red: 0.137, green: 0.137, blue: 0.235, alpha: 1)
-        loginLabel.font = .boldSystemFont(ofSize: 26)
-        loginLabel.textAlignment = .center
-        loginLabel.text = "Login"
         view.addSubview(loginLabel)
-        
-        loginSubLabel.frame = CGRect(x: 0, y: 0, width: 327, height: 18)
-        loginSubLabel.textColor = UIColor(red: 0.514, green: 0.552, blue: 0.571, alpha: 1)
-        loginSubLabel.font = UIFont(name: "Inter-Medium", size: 15)
-        loginSubLabel.textAlignment = .center
-        loginSubLabel.text = "Login or sign up to continue using our app."
         view.addSubview(loginSubLabel)
-        
-        alreadyLabel.frame = CGRect(x: 0, y: 0, width: 81, height: 18)
-        alreadyLabel.textColor = UIColor(red: 0.545, green: 0.584, blue: 0.604, alpha: 1)
-        alreadyLabel.font = UIFont(name: "Inter-Medium", size: 15)
-        alreadyLabel.text = "New user?"
         view.addSubview(alreadyLabel)
-        
-        errorLabel.frame = CGRect(x: 0, y: 0, width: 89, height: 13)
-        errorLabel.textColor = UIColor(red: 0.867, green: 0.173, blue: 0, alpha: 1)
-        errorLabel.font = UIFont(name: "Inter-Medium", size: 11)
-        errorLabel.text = "Password Invalid"
-        view.addSubview(errorLabel)
-        
-    }
-    private func setTextFields(){
-        
-        signEmailField.setPlaceholder("Email Adress")
-        view.addSubview(signEmailField)
-        
-        signPasswordField.setPlaceholder("Password")
-        signPasswordField.isSecureTextEntry = true
-        view.addSubview(signPasswordField)
-        
-        
-    }
-    private func setUpButtons(){
-        
-        forgotButton.frame = CGRect(x: 0, y: 0, width: 121, height: 17)
-        forgotButton.titleLabel?.font = UIFont(name: "Inter-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
-        forgotButton.setTitle("Forgot Password?", for: .normal)
-        forgotButton.setTitleColor(.black, for: .normal)
-        forgotButton.addTarget(self, action: #selector(forgotButtonTapped), for: .touchUpInside)
         view.addSubview(forgotButton)
-        
-        signUpButton.frame = CGRect(x: 0, y: 0, width: 87, height: 18)
-        signUpButton.setTitleColor(UIColor(red: 0.55, green: 0.55, blue: 1, alpha: 1), for: .normal)
-        signUpButton.titleLabel?.font = UIFont(name: "Inter-Medium", size: 15)
-        signUpButton.setTitle("Sign up now", for: .normal)
-        signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         view.addSubview(signUpButton)
-        
-        signInButtonStackView.setButtonTitle("Sign In")
         view.addSubview(signInButtonStackView)
-        
+        view.addSubview(signEmailField)
+        view.addSubview(signPasswordField)
+        view.addSubview(errorLabel)
+        view.addSubview(errorIcon)
+        view.addSubview(signInButtonStackView)
     }
     private func setUpConstraints(){
         forgotButtonTopConstraint = forgotButton.topAnchor.constraint(equalTo: signPasswordField.bottomAnchor, constant: 12)
@@ -177,11 +178,11 @@ final class SignInViewController: BaseViewController,UITextFieldDelegate {
             alreadyLabel.widthAnchor.constraint(equalToConstant: 81),
             alreadyLabel.heightAnchor.constraint(equalToConstant: 18),
             alreadyLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -35),
-            alreadyLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 103),
+            alreadyLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 113),
             
             signUpButton.widthAnchor.constraint(equalToConstant: 94),
             signUpButton.heightAnchor.constraint(equalToConstant: 18),
-            signUpButton.leadingAnchor.constraint(equalTo: alreadyLabel.trailingAnchor, constant: 3),
+            signUpButton.leadingAnchor.constraint(equalTo: alreadyLabel.trailingAnchor, constant: 0),
             signUpButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -35),
             
             errorIcon.widthAnchor.constraint(equalToConstant: 16),
@@ -200,7 +201,7 @@ final class SignInViewController: BaseViewController,UITextFieldDelegate {
     }
     func showError(message: String, field: UITextField?) {
        
-        field?.layer.borderColor = UIColor.red.cgColor
+        field?.layer.borderColor = UIColor.appRed.cgColor
         field?.layer.borderWidth = 1.0
         errorIcon.isHidden = false
         errorLabel.isHidden = false
@@ -226,15 +227,15 @@ final class SignInViewController: BaseViewController,UITextFieldDelegate {
     }
     private func loginButtonTapped(){
         signInButtonStackView.buttonTappedHandler = {
-            let email = signEmailField.text ?? ""
-            let password = signPasswordField.text ?? ""
+            let email = self.signEmailField.text ?? ""
+            let password = self.signPasswordField.text ?? ""
             
             let validationResult = InputValidator.validateInputs(fullName: "nsdsdsdil", email: email, password: password)
             
             switch validationResult {
             case .success:
                 let loginRequest = LoginRequest(email: email, password: password)
-                service.requestWithAlamofire(for: loginRequest) { [weak self] result in
+                self.service.requestWithAlamofire(for: loginRequest) { [weak self] result in
                     guard let self = self else { return }
                     switch result {
                     case .success(let response):
@@ -266,9 +267,9 @@ final class SignInViewController: BaseViewController,UITextFieldDelegate {
                 
                 
                 if message == ValidationConstant.emailRequired || message == ValidationConstant.invalidEmail {
-                    invalidField = signEmailField
+                    invalidField = self.signEmailField
                 } else if message == ValidationConstant.passwordRequired || message == ValidationConstant.invalidPassword {
-                    invalidField = signPasswordField
+                    invalidField = self.signPasswordField
                 } else {
                     invalidField = nil
                 }
@@ -323,14 +324,4 @@ final class SignInViewController: BaseViewController,UITextFieldDelegate {
     @objc func textFieldDidChange(_ textField: UITextField) {
             checkTextFields()
         }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

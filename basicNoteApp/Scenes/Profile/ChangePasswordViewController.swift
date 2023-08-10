@@ -7,26 +7,43 @@
 
 import UIKit
 
-class ChangePasswordViewController: BaseViewController,UITextFieldDelegate {
+class ChangePasswordViewController: BaseViewController {
     
-    var passwordField = AuthReusableTextfield()
-    var newPasswordField = AuthReusableTextfield()
-    var retypeField = AuthReusableTextfield()
-    var saveButton = ReusableButtonStackView()
+    var passwordField: AuthReusableTextfield = {
+       let textField = AuthReusableTextfield()
+        textField.setPlaceholder("Password")
+        textField.isSecureTextEntry = true
+        textField.font = .title4()
+        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        return textField
+    }()
+    var newPasswordField:AuthReusableTextfield = {
+        let textField = AuthReusableTextfield()
+         textField.setPlaceholder("New Password")
+        textField.isSecureTextEntry = true
+        textField.font = .title4()
+        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+         return textField
+    }()
+    var retypeField: AuthReusableTextfield = {
+        let textField = AuthReusableTextfield()
+         textField.setPlaceholder("Retype New Password")
+        textField.isSecureTextEntry = true
+        textField.font = .title4()
+        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+         return textField
+    }()
+    var saveButton: ReusableButtonStackView = {
+       let button = ReusableButtonStackView()
+        button.setButtonTitle("Save")
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        passwordField.delegate = self
-        newPasswordField.delegate = self
-        retypeField.delegate = self
-        passwordField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        retypeField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        newPasswordField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         checkTextFields()
         setUpView()
         applyConstraints()
-
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -34,26 +51,11 @@ class ChangePasswordViewController: BaseViewController,UITextFieldDelegate {
     }
 
     private func setUpView(){
-        
-        passwordField.setPlaceholder("Password")
-        newPasswordField.setPlaceholder("New Password")
-        retypeField.setPlaceholder("Retype New Password")
-        saveButton.setButtonTitle("Save")
-        
-        passwordField.isSecureTextEntry = true
-        newPasswordField.isSecureTextEntry = true
-        retypeField.isSecureTextEntry = true
-        
-        passwordField.font = UIFont(name: "Inter-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
-        newPasswordField.font = UIFont(name: "Inter-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
-        retypeField.font = UIFont(name: "Inter-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
-        
+    
         view.addSubview(passwordField)
         view.addSubview(newPasswordField)
         view.addSubview(retypeField)
         view.addSubview(saveButton)
-        
-        
     }
     private func applyConstraints(){
         passwordField.translatesAutoresizingMaskIntoConstraints = false
@@ -87,16 +89,8 @@ class ChangePasswordViewController: BaseViewController,UITextFieldDelegate {
             saveButton.topAnchor.constraint(equalTo: retypeField.bottomAnchor, constant: 24),
             saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
-            
-            
-        
-        
-        
         
         ])
-        
-        
-        
     }
     public func checkTextFields() {
             if let text1 = retypeField.text, !text1.isEmpty,

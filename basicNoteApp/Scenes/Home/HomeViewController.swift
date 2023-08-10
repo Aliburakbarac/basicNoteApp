@@ -10,7 +10,13 @@ import UIKit
 class HomeViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
     
     var noteView = UITableView()
-    var addButton = ReusableButtonStackView()
+    var addButton: ReusableButtonStackView = {
+       let button = ReusableButtonStackView()
+        button.setButtonTitle("Add Note")
+        button.iconImageName = "ic_addnote"
+        button.isEnabled()
+        return button
+    }()
     var namesArray = ["Table View Deneme","Table Deneme","Table","Deneme"]
 
     override func viewDidLoad() {
@@ -19,59 +25,18 @@ class HomeViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         noteView.delegate = self
         noteView.dataSource = self
         view.addSubview(noteView)
+        view.addSubview(addButton)
         noteView.register(NoteCell.self, forCellReuseIdentifier: "NoteCell")
         noteView.reloadData()
-        setUpViews()
         applyConstraints()
         addClicked()
-      
         }
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
-        setupNavigationBar()
+        setupStyle2NavigationBar()
+        
     }
-    func setupNavigationBar() {
-        let navigationBar = navigationController?.navigationBar
-       let leftButton = UIButton(type: .custom)
-       leftButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-       leftButton.setImage(UIImage(named: "ic_menu"), for: .normal)
-       leftButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
-       let leftBarButton = UIBarButtonItem(customView: leftButton)
-       navigationItem.leftBarButtonItem = leftBarButton
-       
-       let rightButton = UIButton(type: .custom)
-       rightButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-       let originalImage = UIImage(named: "profilePhoto")
-       let roundedImage = originalImage?.roundedImageWith(size: CGSize(width: 30, height: 30))
-       rightButton.setImage((roundedImage), for: .normal)
-       rightButton.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
-       let rightBarButton = UIBarButtonItem(customView: rightButton)
-       navigationItem.rightBarButtonItem = rightBarButton
-       
-           let searchBar = NoteSearchBar()
-           
-
-        navigationBar!.addSubview(leftButton)
-        navigationBar!.addSubview(rightButton)
-        navigationItem.titleView = searchBar
-
-        let navBarHeight = navigationBar!.frame.height
-           let buttonSpacing: CGFloat = 20
-
-           let leftButtonX = buttonSpacing
-           let leftButtonY = (navBarHeight - leftButton.frame.height) / 2
-           leftButton.frame.origin = CGPoint(x: leftButtonX, y: leftButtonY)
-
-        let rightButtonX = navigationBar!.frame.width - buttonSpacing - rightButton.frame.width
-           let rightButtonY = (navBarHeight - rightButton.frame.height) / 2
-           rightButton.frame.origin = CGPoint(x: rightButtonX, y: rightButtonY)
-
-           let searchBarX = leftButton.frame.maxX + buttonSpacing
-           let searchBarY = (navBarHeight - searchBar.frame.height) / 2
-           let searchBarWidth = rightButton.frame.minX - buttonSpacing - searchBarX
-           searchBar.frame = CGRect(x: searchBarX, y: searchBarY, width: searchBarWidth, height: searchBar.frame.height)
-   
-   }
+    
     private func applyConstraints(){
         noteView.translatesAutoresizingMaskIntoConstraints = false
         addButton.translatesAutoresizingMaskIntoConstraints = false
@@ -93,14 +58,6 @@ class HomeViewController: BaseViewController, UITableViewDelegate, UITableViewDa
         
         
         ])
-    }
-    private func setUpViews(){
-        
-        addButton.setButtonTitle("Add Note")
-        addButton.iconImageName = "ic_addnote"
-        addButton.colorChange()
-        view.addSubview(addButton)
-        
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return namesArray.count
@@ -136,13 +93,12 @@ class HomeViewController: BaseViewController, UITableViewDelegate, UITableViewDa
                 }))
                     
                     self.present(alert, animated: true, completion: nil)
-                    
                     completion(true)
                 }
         
         let deleteIcon = UIImage(named: "ic_trash")
         deleteAction.image = deleteIcon
-        deleteAction.backgroundColor = .red
+        deleteAction.backgroundColor = .appRed
 
         
         
@@ -153,21 +109,13 @@ class HomeViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             }
             let editIcon = UIImage(named: "ic_edit")
             editAction.image = editIcon
-            editAction.backgroundColor = UIColor(red: 255/255, green: 209/255, blue: 100/255, alpha: 1)
+        editAction.backgroundColor = .appYellow
             return UISwipeActionsConfiguration(actions: [deleteAction,editAction])
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 124
     }
-   
-   @objc private func leftButtonTapped() {
-       let profileVC = ProfileViewController()
-       navigationController?.pushViewController(profileVC, animated: true)
-   }
-   
-   @objc private func rightButtonTapped() {
-       //NavBar Profile Photo Button
-   }
+    
     private func addClicked(){
         addButton.buttonTappedHandler = {
             let AddVC = AddNoteViewController()

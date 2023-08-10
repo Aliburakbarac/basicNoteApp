@@ -9,11 +9,44 @@ import UIKit
 
 class ProfileViewController: BaseViewController {
     
-    var fullNameField = AuthReusableTextfield()
-    var emailField = AuthReusableTextfield()
-    var saveButton = ReusableButtonStackView()
-    var changeButton = UIButton()
-    var signOutButton = UIButton()
+    var fullNameField: AuthReusableTextfield = {
+
+        let textField = AuthReusableTextfield()
+        textField.setPlaceholder("Full Name")
+       return textField
+    }()
+    var emailField: AuthReusableTextfield = {
+        let textField = AuthReusableTextfield()
+        textField.setPlaceholder("Email Adress")
+        return textField
+    }()
+    var saveButton: ReusableButtonStackView = {
+        
+        let button = ReusableButtonStackView()
+        button.setButtonTitle("Save")
+        button.isEnabled()
+        return button
+    }()
+    var changeButton: UIButton = {
+       
+        let button = UIButton()
+        button.frame = CGRect(x: 0, y: 0, width: 123, height: 17)
+        button.titleLabel?.font = .title4()
+        button.setTitle("Change Password?", for: .normal)
+        button.setTitleColor(.appPurple, for: .normal)
+        button.addTarget(self, action: #selector(changeButtonTapped), for: .touchUpInside)
+        return button
+    
+    }()
+    var signOutButton: UIButton = {
+        let button = UIButton()
+        button.frame = CGRect(x: 0, y: 0, width: 59, height: 17)
+        button.titleLabel?.font = .title4()
+        button.setTitle("Sign Out", for: .normal)
+        button.setTitleColor(.appRed, for: .normal)
+        button.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
+        return button
+    }()
     
     
     override func viewDidLoad() {
@@ -34,35 +67,12 @@ class ProfileViewController: BaseViewController {
     }
     private func setUpView(){
         
-        fullNameField.setPlaceholder("Full Name")
-        emailField.setPlaceholder("Email Adress")
-        saveButton.setButtonTitle("Save")
-        saveButton.colorChange()
-        
         view.addSubview(fullNameField)
         view.addSubview(emailField)
         view.addSubview(saveButton)
-        
-        changeButton.frame = CGRect(x: 0, y: 0, width: 123, height: 17)
-        changeButton.titleLabel?.font = UIFont(name: "Inter-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
-        changeButton.setTitle("Change Password?", for: .normal)
-        changeButton.setTitleColor(UIColor(red: 0.545, green: 0.549, blue: 1, alpha: 1), for: .normal)
-        changeButton.addTarget(self, action: #selector(changeButtonTapped), for: .touchUpInside)
-        
-        
-        
-        signOutButton.frame = CGRect(x: 0, y: 0, width: 59, height: 17)
-        signOutButton.titleLabel?.font = UIFont(name: "Inter-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
-        signOutButton.setTitle("Sign Out", for: .normal)
-        signOutButton.setTitleColor(UIColor(red: 0.867, green: 0.173, blue: 0, alpha: 1), for: .normal)
-        signOutButton.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
-        
-        
-        
         view.addSubview(changeButton)
         view.addSubview(signOutButton)
-        
-        
+
     }
     private func applyConstraints(){
         

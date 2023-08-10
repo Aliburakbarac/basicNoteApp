@@ -8,19 +8,21 @@
 import UIKit
 
 class CustomNavigationController: UINavigationController {
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
     }
-  
-     func setupNavigationBar() {
-
-         let backButtonImage = UIImage(named: "Path")
-                navigationBar.tintColor = .black
-                 navigationBar.backIndicatorImage = backButtonImage
-                 navigationBar.backIndicatorTransitionMaskImage = backButtonImage
     
+    
+    private func setupNavigationBar() {
+        let backButtonImage = UIImage(named: "Path")
+        navigationBar.tintColor = .appBlack
+        navigationBar.backIndicatorImage = backButtonImage
+        navigationBar.backIndicatorTransitionMaskImage = backButtonImage
     }
     
 }
+
+
