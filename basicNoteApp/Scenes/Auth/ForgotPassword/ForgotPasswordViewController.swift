@@ -7,46 +7,57 @@
 
 import UIKit
 
-final class ForgotPasswordViewController: BaseViewController,UITextFieldDelegate {
+final class ForgotPasswordViewController: BaseViewController {
     
-    private let forgotLabel = UILabel()
-    private let forgotSubLabel = UILabel()
-    private let emailField = AuthReusableTextfield()
-    private let resetButton = ReusableButtonStackView()
+    private let forgotLabel: UILabel = {
+        let label = UILabel()
+        label.frame = CGRect(x: 0, y: 0, width: 327, height: 31)
+        label.textColor = .appBlack
+        label.font = .title1()
+        label.textAlignment = .center
+        label.text = "Forgot Password?"
+        return label
+    }()
+    private let forgotSubLabel: UILabel = {
+       let label = UILabel()
+        label.frame = CGRect(x: 0, y: 0, width: 327, height: 36)
+        label.textColor = .appGray
+        label.font = .title3()
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.textAlignment = .center
+        label.text = "Confirm your email and we’ll send the instructions."
+        return label
+    }()
+    private var emailField: AuthReusableTextfield = {
+        let textField = AuthReusableTextfield()
+        textField.setPlaceholder("Email Adress")
+        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        return textField
+    }()
+    private let resetButton: ReusableButtonStackView = {
+        let button = ReusableButtonStackView()
+        button.setButtonTitle("Reset Password")
+        return button
+    }()
     
     var service = NetworkManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        emailField.delegate = self
         setUpViews()
         applyConstraints()
         forgotClicked()
+        checkTextFields()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = false
     }
     func setUpViews(){
-        
-        forgotLabel.frame = CGRect(x: 0, y: 0, width: 327, height: 31)
-        forgotLabel.textColor = UIColor(red: 0.137, green: 0.137, blue: 0.235, alpha: 1)
-        forgotLabel.font = .boldSystemFont(ofSize: 26)
-        forgotLabel.textAlignment = .center
-        forgotLabel.text = "Forgot Password?"
         view.addSubview(forgotLabel)
-        
-        forgotSubLabel.frame = CGRect(x: 0, y: 0, width: 327, height: 36)
-        forgotSubLabel.textColor = UIColor(red: 0.514, green: 0.552, blue: 0.571, alpha: 1)
-        forgotSubLabel.font = UIFont.systemFont(ofSize: 15)
-        forgotSubLabel.numberOfLines = 0
-        forgotSubLabel.lineBreakMode = .byWordWrapping
-        forgotSubLabel.textAlignment = .center
-        forgotSubLabel.text = "Confirm your email and we’ll send the instructions."
         view.addSubview(forgotSubLabel)
-        
-        emailField.setPlaceholder("Email Adress")
         view.addSubview(emailField)
-        
-        resetButton.setButtonTitle("Reset Password")
         view.addSubview(resetButton)
-        
     }
     func applyConstraints(){
         emailField.translatesAutoresizingMaskIntoConstraints = false
@@ -80,7 +91,6 @@ final class ForgotPasswordViewController: BaseViewController,UITextFieldDelegate
             resetButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             resetButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             
-        
         ])
         forgotSubLabel.sizeToFit()
         
@@ -89,20 +99,18 @@ final class ForgotPasswordViewController: BaseViewController,UITextFieldDelegate
         resetButton.buttonTappedHandler = {
             let forgotRequest = ForgotRequest(email: self.emailField.text ?? "")
             self.service.requestWithAlamofire(for: forgotRequest) { [weak self] result in
-                guard let self = self else { return }
+                guard self != nil else { return }
                 switch result {
                 case .success(let response):
 
                     DispatchQueue.main.async {
-                        print("yollandı")
-    
+                        ToastPresenter.showSuccessToast(text: response.message!)
                     }
                     print(response)
 
                 case .failure(let error):
                     if let errorResponse = error as? ErrorResponse {
-                                        print("Error Code: \(errorResponse.code)")
-                                        print("Error Message: \(errorResponse.message)")
+                        ToastPresenter.showWarningToast(text: errorResponse.message)
                                        
                                     } else {
                                         print("General Error: \(error.localizedDescription)")
@@ -114,7 +122,17 @@ final class ForgotPasswordViewController: BaseViewController,UITextFieldDelegate
         
         }
     }
-
+    public func checkTextFields() {
+        if let  text2 = emailField.text, !text2.isEmpty {
+            
+                resetButton.isEnabled()
+            } else {
+               
+            }
+        }
+    @objc func textFieldDidChange(_ textField: UITextField) {
+            checkTextFields()
+        }
     /*
     // MARK: - Navigation
 

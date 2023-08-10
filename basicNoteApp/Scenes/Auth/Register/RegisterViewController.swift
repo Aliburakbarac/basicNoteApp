@@ -7,18 +7,105 @@
 
 import UIKit
 
- final class RegisterViewController: BaseViewController, UITextFieldDelegate {
-    private let signUpLabel = UILabel()
-    private let subtitleLabel = UILabel()
-    private let fullnameField = AuthReusableTextfield()
-    private let emailField = AuthReusableTextfield()
-    private let passwordField = AuthReusableTextfield()
-    private let forgotButton = UIButton()
-    private let buttonStackView =  ReusableButtonStackView()
-    private let alreadyLabel = UILabel()
-    private let signInButton = UIButton()
-    private let errorLabel = UILabel()
-    private let errorIcon = UIImageView()
+ final class RegisterViewController: BaseViewController {
+     private let signUpLabel: UILabel = {
+         
+         let label = UILabel()
+         label.frame = CGRect(x: 0, y: 0, width: 327, height: 31)
+         label.textColor = .appBlack
+         label.font = .title1()
+         label.textAlignment = .center
+         label.text = "Sign Up"
+         return label
+         
+     }()
+     private let fullnameField: AuthReusableTextfield = {
+         
+         let textField = AuthReusableTextfield()
+         textField.setPlaceholder("Full Name")
+         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+         return textField }()
+     
+     private let subtitleLabel: UILabel = {
+        let label = UILabel()
+         label.frame = CGRect(x: 0, y: 0, width: 327, height: 18)
+         label.textColor = .appGray
+         label.font = .title3()
+         label.textAlignment = .center
+         label.text = "Login or sign up to continue using our app."
+         return label
+     }()
+     private var emailField: AuthReusableTextfield = {
+         
+         let textField = AuthReusableTextfield()
+         textField.setPlaceholder("Email Adress")
+         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+         return textField
+     }()
+     private let passwordField: AuthReusableTextfield = {
+         
+         let textField = AuthReusableTextfield()
+         textField.setPlaceholder("Password")
+         textField.isSecureTextEntry = true
+         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+         return textField
+         
+     }()
+     private let forgotButton: UIButton = {
+         
+        let button = UIButton()
+         button.frame = CGRect(x: 0, y: 0, width: 121, height: 17)
+         button.titleLabel?.font = .title4()
+         button.setTitle("Forgot Password?", for: .normal)
+         button.setTitleColor(.appBlack, for: .normal)
+         button.addTarget(self, action: #selector(forgotButtonTapped), for: .touchUpInside)
+         return button
+         
+     }()
+     private let buttonStackView:  ReusableButtonStackView = {
+         let loginButton = ReusableButtonStackView()
+         loginButton.setButtonTitle("Sign Up")
+         return loginButton
+     }()
+     private let alreadyLabel: UILabel = {
+         
+         let label = UILabel()
+         label.frame = CGRect(x: 0, y: 0, width: 200, height: 18)
+         label.textColor = .appGray
+         label.font = .title3()
+         label.text = "Already have an account?"
+         return label
+         
+     }()
+     private let signInButton: UIButton = {
+        
+         let button = UIButton()
+         button.frame = CGRect(x: 0, y: 0, width: 90, height: 18)
+         button.setTitleColor(.appPurple, for: .normal)
+         button.titleLabel?.font = .title3()
+         button.setTitle("Sign in now", for: .normal)
+         button.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
+         return button
+         
+     }()
+     private let errorLabel: UILabel = {
+         
+         let label = UILabel()
+         label.frame = CGRect(x: 0, y: 0, width: 150, height: 13)
+         label.textColor = .appRed
+         label.font = .title5()
+         label.text = "Password Invalid"
+         return label
+         
+     }()
+     private let errorIcon: UIImageView = {
+         
+        let imageView = UIImageView()
+         imageView.frame = CGRect(x: 0, y: 0, width: 16, height: 16)
+         imageView.image = UIImage(named: "ic_error")
+         return imageView
+         
+     }()
     private var forgotButtonTopConstraint: NSLayoutConstraint!
     private let validation = InputValidator()
     
@@ -27,71 +114,30 @@ import UIKit
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        fullnameField.delegate = self
-        emailField.delegate = self
-        passwordField.delegate = self
-        setUpLabel()
-        setUpTextFields()
         setUpViews()
-        setUpButtons()
-        setUpImages()
         applyConstraints()
         registerClicked()
-        
+    
         errorIcon.isHidden = true
         errorLabel.isHidden = true
-        
-        
-        
-        
-        
-        
-      
+
         // Do any additional setup after loading the view.
     }
-
-    
-     func setUpImages(){
-         errorIcon.frame = CGRect(x: 0, y: 0, width: 16, height: 16)
-         errorIcon.image = UIImage(named: "ic_error")
-         view.addSubview(errorIcon)
-         
+     override func viewDidAppear(_ animated: Bool) {
+         navigationController?.navigationBar.isHidden = true
      }
-    func setUpLabel(){
-        signUpLabel.frame = CGRect(x: 0, y: 0, width: 327, height: 31)
-        signUpLabel.textColor = UIColor(red: 0.137, green: 0.137, blue: 0.235, alpha: 1)
-        signUpLabel.font = .boldSystemFont(ofSize: 26)
-        signUpLabel.textAlignment = .center
-        signUpLabel.text = "Sign Up"
-        view.addSubview(signUpLabel)
-        
-        subtitleLabel.frame = CGRect(x: 0, y: 0, width: 327, height: 18)
-        subtitleLabel.textColor = UIColor(red: 0.514, green: 0.552, blue: 0.571, alpha: 1)
-        subtitleLabel.font = UIFont(name: "Inter-Medium", size: 15)
-        subtitleLabel.textAlignment = .center
-        subtitleLabel.text = "Login or sign up to continue using our app."
-        view.addSubview(subtitleLabel)
-        
-        alreadyLabel.frame = CGRect(x: 0, y: 0, width: 200, height: 18)
-        alreadyLabel.textColor = UIColor(red: 0.51, green: 0.55, blue: 0.57, alpha: 1)
-        alreadyLabel.font = UIFont(name: "Inter-Medium", size: 15)
-        alreadyLabel.text = "Already have an account?"
-        view.addSubview(alreadyLabel)
-        
-        errorLabel.frame = CGRect(x: 0, y: 0, width: 150, height: 13)
-        errorLabel.textColor = UIColor(red: 0.867, green: 0.173, blue: 0, alpha: 1)
-        errorLabel.font = UIFont(name: "Inter-Medium", size: 11)
-        errorLabel.text = "Password Invalid"
-        view.addSubview(errorLabel)
-        
-    }
      func setUpViews(){
-        buttonStackView.setButtonTitle("Sign Up")
         view.addSubview(buttonStackView)
-         
-         
-         
+        view.addSubview(fullnameField)
+        view.addSubview(emailField)
+        view.addSubview(passwordField)
+        view.addSubview(signUpLabel)
+        view.addSubview(subtitleLabel)
+        view.addSubview(alreadyLabel)
+        view.addSubview(errorLabel)
+         view.addSubview(errorIcon)
+         view.addSubview(forgotButton)
+         view.addSubview(signInButton)
      }
      func registerClicked(){
          buttonStackView.buttonTappedHandler = {
@@ -109,32 +155,26 @@ import UIKit
                      switch result {
                      case .success(let response):
                          self.accessToken = response.data?.accessToken ?? ""
-
-                        
-                             self.errorLabel.text = response.message
-                             print(response)
-                             print(response.code)
-                             self.changeColorSuccess()
-                             
-                             self.errorLabel.isHidden = true
-                             self.errorIcon.isHidden = true
-                             self.moveForgotButton()
-                             self.navigateToMain() 
+                         
+                         
+                         self.errorLabel.text = response.message
+                         self.errorLabel.isHidden = true
+                         self.errorIcon.isHidden = true
+                         self.moveForgotButton()
+                         self.navigateToMain()
                          
                          print(response)
-                                  
+                         
                      case .failure(let error):
                          
                          if let errorResponse = error as? ErrorResponse {
-                                             print("Error Code: \(errorResponse.code)")
-                                             print("Error Message: \(errorResponse.message)")
-                             self.showError(message: errorResponse.message, field: self.fullnameField)
-                                            
-                                         } else {
-                                             print("General Error: \(error.localizedDescription)")
-                                             
-                                            
-                                         }
+                             ToastPresenter.showWarningToast(text: errorResponse.message)
+                             
+                         } else {
+                             print("General Error: \(error.localizedDescription)")
+                             
+                             
+                         }
                      }
                  }
              case .failure(let message):
@@ -154,38 +194,6 @@ import UIKit
              }
          }
      }
-    func setUpTextFields(){
-        
-        fullnameField.setPlaceholder("Full Name")
-        emailField.setPlaceholder("Email Adress")
-        passwordField.setPlaceholder("Password")
-        passwordField.isSecureTextEntry = true
-        
-        view.addSubview(fullnameField)
-        view.addSubview(emailField)
-        view.addSubview(passwordField)
-        
-    }
-    func setUpButtons(){
-        
-        forgotButton.frame = CGRect(x: 0, y: 0, width: 121, height: 17)
-        forgotButton.titleLabel?.font = UIFont(name: "Inter-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
-        forgotButton.setTitle("Forgot Password?", for: .normal)
-        forgotButton.setTitleColor(.black, for: .normal)
-        forgotButton.addTarget(self, action: #selector(forgotButtonTapped), for: .touchUpInside)
-        view.addSubview(forgotButton)
-        
-       
-        
-        signInButton.frame = CGRect(x: 0, y: 0, width: 90, height: 18)
-        signInButton.setTitleColor(UIColor(red: 0.55, green: 0.55, blue: 1, alpha: 1), for: .normal)
-        signInButton.titleLabel?.font = UIFont(name: "Inter-Medium", size: 15)
-        signInButton.setTitle("Sign in now", for: .normal)
-        signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
-        view.addSubview(signInButton)
-        
-    }
-    
     func applyConstraints(){
         forgotButtonTopConstraint = forgotButton.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: 12)
         forgotButtonTopConstraint.isActive = true
@@ -250,13 +258,12 @@ import UIKit
             alreadyLabel.widthAnchor.constraint(equalToConstant: 200),
             alreadyLabel.heightAnchor.constraint(equalToConstant: 18),
             alreadyLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 53),
-            
             alreadyLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -35),
             
             signInButton.widthAnchor.constraint(equalToConstant: 90),
             signInButton.heightAnchor.constraint(equalToConstant: 18),
-            signInButton.leadingAnchor.constraint(equalTo: alreadyLabel.trailingAnchor, constant: 0),
             signInButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -35),
+            signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -70),
             
             errorIcon.widthAnchor.constraint(equalToConstant: 16),
             errorIcon.heightAnchor.constraint(equalToConstant: 16),
@@ -277,7 +284,7 @@ import UIKit
     }
      func showError(message: String, field: UITextField?) {
 
-         field?.layer.borderColor = UIColor.red.cgColor
+         field?.layer.borderColor = UIColor.appRed.cgColor
          field?.layer.borderWidth = 1.0
          
          errorIcon.isHidden = false
@@ -302,8 +309,7 @@ import UIKit
      private func navigateToMain() {
          DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                  let homeVC = HomeViewController()
-                 self.navigationController?.navigationBar.isHidden = true
-                 self.navigationController?.pushViewController(homeVC, animated: true)
+             self.navigationController?.pushViewController(homeVC, animated: true)
              }
          
          }
@@ -315,13 +321,24 @@ import UIKit
          
     @objc func signInButtonTapped() {
              let signInVC = SignInViewController()
-            self.navigationController?.navigationBar.isHidden = true
              self.navigationController?.pushViewController(signInVC, animated: true)
         
             
              
     }
-     
+     public func checkTextFields() {
+             if let text1 = fullnameField.text, !text1.isEmpty,
+                let text2 = emailField.text, !text2.isEmpty,
+                let text3 = passwordField.text, !text3.isEmpty {
+                 
+                 buttonStackView.isEnabled()
+             } else {
+                
+             }
+         }
+     @objc func textFieldDidChange(_ textField: UITextField) {
+             checkTextFields()
+         }
      
      func moveForgotButton() {
          if errorLabel.isHidden {
@@ -333,9 +350,7 @@ import UIKit
              self.view.layoutIfNeeded()
          }
      }
-     func changeColorSuccess(){
-         buttonStackView.setButtonColor()
-     }
+     
 
 }
 

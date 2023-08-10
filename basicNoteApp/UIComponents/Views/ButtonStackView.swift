@@ -12,6 +12,18 @@ class ReusableButtonStackView: UIStackView {
     
     var buttonTappedHandler: (() -> Void)?
     
+    var iconImageName: String? {
+            didSet {
+                if let iconName = iconImageName {
+                    let icon = UIImage(named: iconName)
+                    button.setImage(icon, for: .normal)
+                    
+                }
+            }
+        }
+    
+    
+    
     init() {
         super.init(frame: .zero)
         setupStackView()
@@ -32,12 +44,14 @@ class ReusableButtonStackView: UIStackView {
     private func createButton() {
         button = UIButton()
         button.frame = CGRect(x: 0, y: 0, width: 327, height: 63)
-        button.backgroundColor = UIColor(red: 0.863, green: 0.863, blue: 1, alpha: 1)
+        button.backgroundColor = .appLightPurple
         button.layer.cornerRadius = 5
         button.setTitle("Sign Up", for: .normal)
-        button.setTitleColor(UIColor(red: 0.545, green: 0.549, blue: 1, alpha: 1), for: .normal)
-        button.titleLabel?.font = UIFont(name: "Inter-SemiBold", size: 16)
+        button.setTitleColor(.appPurple, for: .normal)
+        button.titleLabel?.font = .title2()
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+        
+        button.isEnabled = false
         
         addArrangedSubview(button)
     }
@@ -49,8 +63,10 @@ class ReusableButtonStackView: UIStackView {
     func setButtonTitle(_ title: String) {
         button.setTitle(title, for: .normal)
     }
-    func setButtonColor(){
-        button.backgroundColor = UIColor(red: 0.55, green: 0.55, blue: 1, alpha: 1)
+    
+    func isEnabled(){
+        button.isEnabled = true
+        button.backgroundColor = .appPurple
         button.setTitleColor(.white, for: .normal)
     }
     

@@ -9,20 +9,17 @@ import UIKit
 
 class BaseViewController: UIViewController {
 
+    let toastLink = ToastPresenter()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         hideKeyboardFunction()
         view.backgroundColor = .systemBackground
-        let backImage = UIImage(named: "Path.png")
-        self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.backIndicatorImage = backImage
-        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        // Do any additional setup after loading the view.
+        self.navigationItem.title = ""
+        self.navigationItem.rightBarButtonItem?.isHidden = true
+        self.navigationItem.titleView?.isHidden = true
+        
     }
-    
-    
+
 
     /*
     // MARK: - Navigation
