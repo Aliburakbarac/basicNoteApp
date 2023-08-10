@@ -52,7 +52,7 @@ final class SignInViewController: BaseViewController,UITextFieldDelegate {
         navigationController?.navigationBar.isHidden = true
     }
     func setUpViews(){
-       signInButtonStackView.setButtonTitle("Sign Up")
+       signInButtonStackView.setButtonTitle("Login")
        view.addSubview(signInButtonStackView)
         
         

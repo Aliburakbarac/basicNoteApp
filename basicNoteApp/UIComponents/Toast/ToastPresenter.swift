@@ -30,6 +30,7 @@ public class ToastPresenter {
         let customView = ToastWarningView(text: text, backgroundColor: backgroundColor)
         toastView = customView
         SwiftEntryKit.display(entry: customView, using: attributes)
+        
     }
 
 }

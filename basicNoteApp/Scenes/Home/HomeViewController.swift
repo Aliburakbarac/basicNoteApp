@@ -128,19 +128,19 @@ class HomeViewController: BaseViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "") { (action, view, completion) in
                 let alert = UIAlertController(title: "Delete Note", message: "Are you sure you want to delete this note?", preferredStyle: .alert)
-                
-                alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+
+            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
                     self.namesArray.remove(at: indexPath.row)
                     tableView.deleteRows(at: [indexPath], with: .fade)
                 }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                     
                     self.present(alert, animated: true, completion: nil)
                     
                     completion(true)
                 }
         
-        let deleteIcon = UIImage(named: "ic_trash")?.withTintColor(.white)
+        let deleteIcon = UIImage(named: "ic_trash")
         deleteAction.image = deleteIcon
         deleteAction.backgroundColor = .red
 
@@ -151,7 +151,7 @@ class HomeViewController: BaseViewController, UITableViewDelegate, UITableViewDa
             self.navigationController?.pushViewController(EditNoteViewController(), animated: true)
                 completion(true)
             }
-            let editIcon = UIImage(named: "ic_edit")?.withTintColor(.white)
+            let editIcon = UIImage(named: "ic_edit")
             editAction.image = editIcon
             editAction.backgroundColor = UIColor(red: 255/255, green: 209/255, blue: 100/255, alpha: 1)
             return UISwipeActionsConfiguration(actions: [deleteAction,editAction])

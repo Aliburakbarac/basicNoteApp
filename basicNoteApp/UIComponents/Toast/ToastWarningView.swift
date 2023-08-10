@@ -18,7 +18,7 @@ class ToastWarningView: UIView {
     init(text: String, backgroundColor: UIColor) {
         super.init(frame: .zero)
         self.backgroundColor = backgroundColor
-        layer.cornerRadius = 10
+        
 
         configureLabel(text: text)
         configureContents()
