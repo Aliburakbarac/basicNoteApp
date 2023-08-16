@@ -9,7 +9,7 @@ import UIKit
 
 final class ForgotPasswordViewController: BaseViewController {
     
-    private let forgotLabel: UILabel = {
+    private lazy var forgotLabel: UILabel = {
         let label = UILabel()
         label.frame = CGRect(x: 0, y: 0, width: 327, height: 31)
         label.textColor = .appBlack
@@ -18,7 +18,7 @@ final class ForgotPasswordViewController: BaseViewController {
         label.text = "Forgot Password?"
         return label
     }()
-    private let forgotSubLabel: UILabel = {
+    private lazy var forgotSubLabel: UILabel = {
        let label = UILabel()
         label.frame = CGRect(x: 0, y: 0, width: 327, height: 36)
         label.textColor = .appGray
@@ -29,13 +29,13 @@ final class ForgotPasswordViewController: BaseViewController {
         label.text = "Confirm your email and we’ll send the instructions."
         return label
     }()
-    private var emailField: AuthReusableTextfield = {
+    private lazy var emailField: AuthReusableTextfield = {
         let textField = AuthReusableTextfield()
         textField.setPlaceholder("Email Adress")
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         return textField
     }()
-    private let resetButton: ReusableButtonStackView = {
+    private lazy var resetButton: ReusableButtonStackView = {
         let button = ReusableButtonStackView()
         button.setButtonTitle("Reset Password")
         return button

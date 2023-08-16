@@ -9,25 +9,25 @@ import UIKit
 
 class ProfileViewController: BaseViewController {
     
-    var fullNameField: AuthReusableTextfield = {
+    private lazy var fullNameField: AuthReusableTextfield = {
 
         let textField = AuthReusableTextfield()
         textField.setPlaceholder("Full Name")
        return textField
     }()
-    var emailField: AuthReusableTextfield = {
+    private lazy var emailField: AuthReusableTextfield = {
         let textField = AuthReusableTextfield()
         textField.setPlaceholder("Email Adress")
         return textField
     }()
-    var saveButton: ReusableButtonStackView = {
+    private lazy var saveButton: ReusableButtonStackView = {
         
         let button = ReusableButtonStackView()
         button.setButtonTitle("Save")
         button.isEnabled()
         return button
     }()
-    var changeButton: UIButton = {
+    private lazy var changeButton: UIButton = {
        
         let button = UIButton()
         button.frame = CGRect(x: 0, y: 0, width: 123, height: 17)
@@ -38,7 +38,7 @@ class ProfileViewController: BaseViewController {
         return button
     
     }()
-    var signOutButton: UIButton = {
+    private lazy var signOutButton: UIButton = {
         let button = UIButton()
         button.frame = CGRect(x: 0, y: 0, width: 59, height: 17)
         button.titleLabel?.font = .title4()
