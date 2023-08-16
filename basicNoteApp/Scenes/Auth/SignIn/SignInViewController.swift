@@ -27,20 +27,20 @@ final class SignInViewController: BaseViewController {
         label.text = "Login or sign up to continue using our app."
         return label
     }()
-    private let signEmailField: AuthReusableTextfield = {
+    private lazy var signEmailField: AuthReusableTextfield = {
         let textField = AuthReusableTextfield()
         textField.setPlaceholder("Email Adress")
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         return textField
     }()
-    private let signPasswordField: AuthReusableTextfield = {
+    private lazy var signPasswordField: AuthReusableTextfield = {
         let textField = AuthReusableTextfield()
         textField.setPlaceholder("Password")
         textField.isSecureTextEntry = true
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         return textField
     }()
-    private let forgotButton: UIButton = {
+    private lazy var forgotButton: UIButton = {
         let button = UIButton()
         button.frame = CGRect(x: 0, y: 0, width: 121, height: 17)
         button.titleLabel?.font = .title4()
@@ -62,7 +62,7 @@ final class SignInViewController: BaseViewController {
         label.text = "New user?"
         return label
     }()
-    private let signUpButton: UIButton = {
+    private lazy var signUpButton: UIButton = {
         let button = UIButton()
         button.frame = CGRect(x: 0, y: 0, width: 87, height: 18)
         button.setTitleColor(.appPurple, for: .normal)

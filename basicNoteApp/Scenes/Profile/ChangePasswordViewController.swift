@@ -9,7 +9,7 @@ import UIKit
 
 class ChangePasswordViewController: BaseViewController {
     
-    var passwordField: AuthReusableTextfield = {
+    private lazy var passwordField: AuthReusableTextfield = {
        let textField = AuthReusableTextfield()
         textField.setPlaceholder("Password")
         textField.isSecureTextEntry = true
@@ -17,7 +17,7 @@ class ChangePasswordViewController: BaseViewController {
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         return textField
     }()
-    var newPasswordField:AuthReusableTextfield = {
+    private lazy var newPasswordField:AuthReusableTextfield = {
         let textField = AuthReusableTextfield()
          textField.setPlaceholder("New Password")
         textField.isSecureTextEntry = true
@@ -25,7 +25,7 @@ class ChangePasswordViewController: BaseViewController {
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
          return textField
     }()
-    var retypeField: AuthReusableTextfield = {
+    private lazy var retypeField: AuthReusableTextfield = {
         let textField = AuthReusableTextfield()
          textField.setPlaceholder("Retype New Password")
         textField.isSecureTextEntry = true
@@ -33,7 +33,7 @@ class ChangePasswordViewController: BaseViewController {
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
          return textField
     }()
-    var saveButton: ReusableButtonStackView = {
+    private lazy var saveButton: ReusableButtonStackView = {
        let button = ReusableButtonStackView()
         button.setButtonTitle("Save")
         return button

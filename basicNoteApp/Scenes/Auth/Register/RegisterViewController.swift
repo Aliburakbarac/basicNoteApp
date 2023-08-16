@@ -19,7 +19,7 @@ import UIKit
          return label
          
      }()
-     private let fullnameField: AuthReusableTextfield = {
+     private lazy var fullnameField: AuthReusableTextfield = {
          
          let textField = AuthReusableTextfield()
          textField.setPlaceholder("Full Name")
@@ -35,14 +35,14 @@ import UIKit
          label.text = "Login or sign up to continue using our app."
          return label
      }()
-     private var emailField: AuthReusableTextfield = {
+     private lazy var emailField: AuthReusableTextfield = {
          
          let textField = AuthReusableTextfield()
          textField.setPlaceholder("Email Adress")
          textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
          return textField
      }()
-     private let passwordField: AuthReusableTextfield = {
+     private lazy var passwordField: AuthReusableTextfield = {
          
          let textField = AuthReusableTextfield()
          textField.setPlaceholder("Password")
@@ -51,7 +51,7 @@ import UIKit
          return textField
          
      }()
-     private let forgotButton: UIButton = {
+     private lazy var forgotButton: UIButton = {
          
         let button = UIButton()
          button.frame = CGRect(x: 0, y: 0, width: 121, height: 17)
@@ -77,7 +77,7 @@ import UIKit
          return label
          
      }()
-     private let signInButton: UIButton = {
+     private lazy var signInButton: UIButton = {
         
          let button = UIButton()
          button.frame = CGRect(x: 0, y: 0, width: 90, height: 18)
